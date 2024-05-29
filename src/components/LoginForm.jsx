@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
-function LoginForm() {
+function LoginForm({ setIsLoggedIn }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Login with:', username, password);
+        
+        // Dummy condition for successful login
+        if (username && password) {
+            setIsLoggedIn(true); // Update login state
+            navigate('/dashboard'); // Redirect to Dashboard
+        }
     };
 
     const togglePasswordVisibility = () => {
