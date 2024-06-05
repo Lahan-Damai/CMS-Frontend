@@ -13,10 +13,9 @@ function LoginForm({ setIsLoggedIn }) {
         event.preventDefault();
         console.log('Login with:', username, password);
         
-        // Dummy condition for successful login
         if (username && password) {
-            setIsLoggedIn(true); // Update login state
-            navigate('/dashboard'); // Redirect to Dashboard
+            setIsLoggedIn(true); 
+            navigate('/dashboard'); 
         }
     };
 
