@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../services/api";
 
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -19,10 +20,15 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     };
   }, [dropdownRef, setIsDropdownOpen]);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsDropdownOpen(false);
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      setIsDropdownOpen(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -31,13 +37,21 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
         <h1 className="text-2xl font-semibold">Lahan Damai - Admin</h1>
         {isLoggedIn && (
           <div className="flex items-center space-x-4">
-            <Link to="/artikel-edukasi" className="text-white">Artikel Edukasi</Link>
-            <Link to="/laporan-sengketa" className="text-white">Laporan Sengketa</Link>
-            <Link to="/daftar-profil" className="text-white">Daftar Profil</Link>
-            <Link to="/daftar-ahli-tanah" className="text-white">Daftar Ahli Tanah</Link>
+            <Link to="/artikel-edukasi" className="text-white">
+              Artikel Edukasi
+            </Link>
+            <Link to="/laporan-sengketa" className="text-white">
+              Laporan Sengketa
+            </Link>
+            <Link to="/daftar-profil" className="text-white">
+              Daftar Profil
+            </Link>
+            <Link to="/daftar-ahli-tanah" className="text-white">
+              Daftar Ahli Tanah
+            </Link>
             <div className="relative" ref={dropdownRef}>
               <img
-                src="damal.jpg" 
+                src="damal.jpg"
                 alt="Profile"
                 className="w-10 h-10 rounded-full cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
