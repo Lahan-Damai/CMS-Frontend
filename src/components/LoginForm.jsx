@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../services/api'; 
 
 function LoginForm({ setIsLoggedIn }) {
-    const [username, setUsername] = useState('');
+    const [email, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Login with:', username, password);
+        console.log('Login with:', email, password);
         
-        if (username && password) {
-            setIsLoggedIn(true); 
-            navigate('/dashboard'); 
+        try {
+            const userData = await login(email, password);
+            console.log('User logged in:', userData);
+            setIsLoggedIn(true);
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('Login error:', error);
+          
         }
     };
 
@@ -36,7 +42,7 @@ function LoginForm({ setIsLoggedIn }) {
                                 type="text"
                                 required
                                 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                                value={username}
+                                value={email}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Masukan Username"
                             />
