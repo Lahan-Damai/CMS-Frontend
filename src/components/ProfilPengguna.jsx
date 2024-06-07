@@ -1,57 +1,22 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { getProfilPengguna } from "../services/api";
 
 const ProfilPengguna = () => {
-  const dummyData = [
-    {
-      id: 1,
-      username: "DaffaDazzle",
-      email: "DaffaStar@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pengguna Umum",
-    },
-    {
-      id: 2,
-      username: "AkmalArchitect",
-      email: "AkmalInnovator@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pemerintahan",
-    },
-    {
-      id: 3,
-      username: "DaffaDynamo",
-      email: "DaffaWave@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pengguna Umum",
-    },
-    {
-      id: 4,
-      username: "AkmalAdventures",
-      email: "AkmalPioneer@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pengguna Umum",
-    },
-    {
-      id: 5,
-      username: "AkmalAce",
-      email: "AkmalGalaxy@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pengguna Umum",
-    },
-    {
-      id: 6,
-      username: "DaffaDelight",
-      email: "DaffaSpark@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pemerintahan",
-    },
-    {
-      id: 7,
-      username: "DaffaDreamscape",
-      email: "DaffaQuest@gmail.com",
-      nomorTelepon: "+62 812 3456 7890",
-      role: "Pengguna Umum",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getProfilPengguna();
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -61,17 +26,20 @@ const ProfilPengguna = () => {
             <thead>
               <tr>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  ID
+                  NIK
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  Username Pengguna
+                  Nama Pengguna
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
                   Email
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  Nomor Telepon
+                  Alamat
                 </th>
+                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                  Tanggal Lahir
+                </th>                
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
                   Role
                 </th>
@@ -79,27 +47,30 @@ const ProfilPengguna = () => {
               </tr>
             </thead>
             <tbody>
-              {dummyData.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.id}</td>
+              {users.map((user) => (
+                <tr key={user.nik}>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.nik}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {user.username}
+                    {user.nama}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {user.nomorTelepon}
+                    {user.alamat}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.tanggal_lahir}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select className="border border-gray-300 rounded px-2 py-1">
                       <option
                         value="Pengguna Umum"
-                        selected={user.role === "Pengguna Umum"}
+                        selected={user.role === "user"}
                       >
                         Pengguna Umum
                       </option>
                       <option
                         value="Pemerintahan"
-                        selected={user.role === "Pemerintahan"}
+                        selected={user.role === "admin"}
                       >
                         Pemerintahan
                       </option>

@@ -1,41 +1,25 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { getLaporanSengketa } from "../services/api";
 
 const LaporanSengketa = () => {
-  const dummyData = [
-    {
-      id: 1,
-      latitude: -6.2088,
-      longitude: 106.8456,
-      no_sertifikat: "123456",
-      user_nik: "1234567890",
-      deskripsi: "Gabut aja hehehe",
-      proses_laporan: "Pending",
-      laporan_photos: ["url1", "url2"],
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-    {
-      id: 2,
-      latitude: -6.1754,
-      longitude: 106.8272,
-      no_sertifikat: "234567",
-      user_nik: "2345678901",
-      deskripsi: "Gabut lagi",
-      proses_laporan: "In Progress",
-      laporan_photos: ["url3", "url4"],
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-    {
-      id: 3,
-      latitude: -6.2351,
-      longitude: 106.8063,
-      no_sertifikat: "345678",
-      user_nik: "3456789012",
-      deskripsi: "Emang saya gabut wkwk",
-      proses_laporan: "Resolved",
-      laporan_photos: ["url5", "url6"],
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-  ];
+
+  const [laporan, setLaporan] = useState([]);
+
+  useEffect(() => {
+    const fetchLaporan = async () => {
+      try {
+        const response = await getLaporanSengketa();
+        setLaporan(response.data);
+      } catch (error) {
+        console.error("Failed to fetch laporan sengketa:", error);
+      }
+    };
+
+    fetchLaporan();
+  }, []);
+
+  console.log(laporan);
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -44,7 +28,6 @@ const LaporanSengketa = () => {
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="px-6 py-2 border-b-2 border-gray-300">ID</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   User NIK
                 </th>
@@ -73,11 +56,8 @@ const LaporanSengketa = () => {
               </tr>
             </thead>
             <tbody>
-              {dummyData.map((report) => (
-                <tr key={report.id}>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
-                    {report.id}
-                  </td>
+              {laporan.map((report) => (
+                <tr key={report.no_sertifikat}>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {report.user_nik}
                   </td>
@@ -97,10 +77,10 @@ const LaporanSengketa = () => {
                     {report.proses_laporan}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {report.laporan_photos.join(", ")}
+                    {report.fotos.join(", ")}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {report.uploadedAt}
+                    {report.tanggal_lapor}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     <button className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100">

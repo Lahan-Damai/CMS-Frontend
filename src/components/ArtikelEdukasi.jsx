@@ -1,32 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { getArtikelEdukasi } from '../services/api'; 
+
 
 const ArtikelEdukasi = () => {
-  const dummyData = [
-    {
-      id: 1,
-      title: "5 Fakta tentang Tanah",
-      author: "Liqba",
-      source: "detik.com",
-      content: "Lorem Ipsum....",
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-    {
-      id: 2,
-      title: "Damal mendapat promosi jadi ahli tanah",
-      author: "Liqba",
-      source: "kompas.com",
-      content: "Lorem Ipsum....",
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-    {
-      id: 3,
-      title: "Iqbaliqba",
-      author: "Liqba",
-      source: "liputan6.com",
-      content: "Lorem Ipsum....",
-      uploadedAt: "2/11/2023, 04.00.01",
-    },
-  ];
+
+  const [artikel, setArtikel] = useState([]);
+
+  useEffect(() => {
+    const fetchArtikel = async () => {
+      try {
+        const response = await getArtikelEdukasi();
+        setArtikel(response.data);
+      } catch (error) {
+        console.error("Failed to fetch artikel edukasi:", error);
+      }
+    };
+
+    fetchArtikel();
+  }, []);
+
+  console.log(artikel);
+
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -51,25 +45,25 @@ const ArtikelEdukasi = () => {
               </tr>
             </thead>
             <tbody>
-              {dummyData.map((article) => (
+              {artikel.map((article) => (
                 <tr key={article.id}>
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     {article.id}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {article.title}
+                    {article.judul}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {article.author}
+                    {article.publisher}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {article.source}
+                    {article.sumber}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {article.content}
+                    {article.isi}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {article.uploadedAt}
+                    {article.tanggal_upload}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     <button className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100">
