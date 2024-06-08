@@ -57,7 +57,7 @@ const ArtikelEdukasi = () => {
             onClick={handleTambahEdukasi}
             className="p-2 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]"
           >
-            Tambah Edukasi
+            Tambah Artikel Edukasi
           </button>
         </div>
         <div className="overflow-x-auto">
