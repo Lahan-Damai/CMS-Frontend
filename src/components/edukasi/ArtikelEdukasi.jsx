@@ -25,8 +25,7 @@ const ArtikelEdukasi = () => {
   };
 
   const handleEdit = (id) => {
-    console.log("Edit article with ID:", id);
-    // Add your edit logic here
+    navigate(`/edit-edukasi/${id}`);
   };
 
   const handleTambahEdukasi = () => {
