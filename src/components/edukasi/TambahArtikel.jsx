@@ -49,7 +49,7 @@ const TambahArtikel = () => {
       });
       console.log(formData);
       console.log(formDataToSend);
-      const response = await createArtikelEdukasi(formData);
+      const response = await createArtikelEdukasi(formDataToSend);
       console.log("New post created:", response.data);
       navigate("/artikel-edukasi");
     } catch (error) {
