@@ -122,8 +122,7 @@ export const getArtikelEdukasiById = async (id) => {
 
 export const createArtikelEdukasi = async (data) => {
   try {
-    const token = localStorage.getItem("token");
-
+    console.log(data);
     const response = await api.post("/api/edukasi/create", data);
 
     return response;

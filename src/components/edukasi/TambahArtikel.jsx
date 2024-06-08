@@ -10,6 +10,7 @@ const TambahArtikel = () => {
     isi: "",
     publisher: "",
     sumber: "",
+    foto: [],
   });
 
   const handleChange = (e) => {
@@ -25,13 +26,30 @@ const TambahArtikel = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    setFormData((prevData) => ({
+      ...prevData,
+      foto: Array.from(files),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createArtikelEdukasi({
-        ...formData,
-        tanggal_upload: new Date().toISOString(),
+      const formDataToSend = new FormData();
+      formDataToSend.append("judul", formData.judul);
+      formDataToSend.append("deskripsi", formData.deskripsi);
+      formDataToSend.append("isi", formData.isi);
+      formDataToSend.append("publisher", formData.publisher);
+      formDataToSend.append("sumber", formData.sumber);
+      formDataToSend.append("tanggal_upload", new Date().toISOString());
+      formData.foto.forEach((file) => {
+        formDataToSend.append("foto", file);
       });
+      console.log(formData);
+      console.log(formDataToSend);
+      const response = await createArtikelEdukasi(formData);
       console.log("New post created:", response.data);
       navigate("/artikel-edukasi");
     } catch (error) {
@@ -111,7 +129,19 @@ const TambahArtikel = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
           </div>
-
+          <div>
+            <label htmlFor="foto" className="block mb-1">
+              Foto
+            </label>
+            <input
+              type="file"
+              id="foto"
+              name="foto"
+              multiple
+              onChange={handleFileChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            />
+          </div>
           <button
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
             onClick={handleCancel}
