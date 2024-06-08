@@ -8,7 +8,9 @@ import {
 import Navbar from "./components/Navbar";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
-import ArtikelEdukasi from "./components/ArtikelEdukasi";
+import ArtikelEdukasi from "./components/edukasi/ArtikelEdukasi";
+import TambahArtikel from "./components/edukasi/TambahArtikel";
+import EditArtikel from "./components/edukasi/UpdateArtikel";
 import LaporanSengketa from "./components/LaporanSengketa";
 import ProfilPengguna from "./components/ProfilPengguna";
 import AhliTanah from "./components/AhliTanah";
@@ -29,6 +31,8 @@ function App() {
 
           <Route path="*" element={<Navigate to="/login" replace />} />
           <Route path="/artikel-edukasi" element={<ArtikelEdukasi />} />
+          <Route path="/tambah-edukasi" element={<TambahArtikel />} />
+          <Route path="/edit-edukasi/:id" element={<EditArtikel />} />
           <Route path="/laporan-sengketa" element={<LaporanSengketa />} />
           <Route path="/daftar-profil" element={<ProfilPengguna />} />
           <Route path="/daftar-ahli-tanah" element={<AhliTanah />} />

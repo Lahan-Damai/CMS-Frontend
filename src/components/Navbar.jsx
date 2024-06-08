@@ -8,6 +8,12 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
+    // Check localStorage for login state
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (loggedIn) {
+      setIsLoggedIn(true);
+    }
+
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -18,12 +24,13 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef, setIsDropdownOpen]);
+  }, [setIsLoggedIn]);
 
   const handleLogout = async () => {
     try {
       await logout();
       setIsLoggedIn(false);
+      localStorage.removeItem("isLoggedIn");
       setIsDropdownOpen(false);
       navigate("/login");
     } catch (error) {
@@ -51,7 +58,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             </Link>
             <div className="relative" ref={dropdownRef}>
               <img
-                src="damal.jpg"
+                src="public/damal.jpg"
                 alt="Profile"
                 className="w-10 h-10 rounded-full cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
