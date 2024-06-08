@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = "https://lahandamaiapi-production.up.railway.app/";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -33,6 +33,7 @@ export const login = async (email, password) => {
     }
 
     console.log(response.data.token);
+    localStorage.setItem("isLoggedIn", "true");
 
     return response;
   } catch (error) {
@@ -52,14 +53,14 @@ export const login = async (email, password) => {
 };
 
 export const logout = async () => {
-
   try {
     const response = await api.delete("/api/users/logout");
-
 
     console.log(response);
     console.log("-------------------------------");
     console.log("Logout successful:", response.data);
+
+    localStorage.removeItem("isLoggedIn");
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -76,7 +77,6 @@ export const logout = async () => {
     throw error;
   }
 };
-
 
 export const getArtikelEdukasi = async () => {
   try {
@@ -98,7 +98,6 @@ export const getArtikelEdukasi = async () => {
   }
 };
 
-
 export const getLaporanSengketa = async () => {
   try {
     console.log("masuk");
@@ -119,7 +118,7 @@ export const getLaporanSengketa = async () => {
     }
     throw error;
   }
-}
+};
 
 export const getProfilPengguna = async () => {
   try {
