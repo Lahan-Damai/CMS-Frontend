@@ -123,8 +123,11 @@ export const getArtikelEdukasiById = async (id) => {
 export const createArtikelEdukasi = async (data) => {
   try {
     console.log(data);
-    const response = await api.post("/api/edukasi/create", data);
-
+    const response = await api.post("/api/edukasi/create", data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   } catch (error) {
     if (error.response) {
