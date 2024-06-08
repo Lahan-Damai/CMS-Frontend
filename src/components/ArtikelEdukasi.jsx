@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getArtikelEdukasi } from '../services/api'; 
-
+import React, { useState, useEffect } from "react";
+import { getArtikelEdukasi } from "../services/api";
 
 const ArtikelEdukasi = () => {
-
   const [artikel, setArtikel] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
 
   useEffect(() => {
     const fetchArtikel = async () => {
@@ -19,8 +18,19 @@ const ArtikelEdukasi = () => {
     fetchArtikel();
   }, []);
 
-  console.log(artikel);
+  const handleDropdownToggle = (id) => {
+    setDropdownOpen(dropdownOpen === id ? null : id);
+  };
 
+  const handleEdit = (id) => {
+    console.log("Edit article with ID:", id);
+    // Add your edit logic here
+  };
+
+  const handleDelete = (id) => {
+    console.log("Delete article with ID:", id);
+    // Add your delete logic here
+  };
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -41,7 +51,9 @@ const ArtikelEdukasi = () => {
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Uploaded at
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300">Edit</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300 text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -65,10 +77,29 @@ const ArtikelEdukasi = () => {
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.tanggal_upload}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
-                    <button className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100">
-                      Edit
+                  <td className="px-6 py-2 border-b border-gray-300 text-right relative">
+                    <button
+                      className="border border-gray-300 rounded px-2 py-2 text-gray-500 hover:bg-gray-100 relative"
+                      onClick={() => handleDropdownToggle(article.id)}
+                    >
+                      &#x22EE;
                     </button>
+                    {dropdownOpen === article.id && (
+                      <div className="absolute right-0 top-0 mt-8 w-32 bg-white rounded-md shadow-lg py-2 z-50">
+                        <button
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
+                          onClick={() => handleEdit(article.id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
+                          onClick={() => handleDelete(article.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
