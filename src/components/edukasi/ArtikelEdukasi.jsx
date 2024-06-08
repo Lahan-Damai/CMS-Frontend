@@ -46,7 +46,7 @@ const ArtikelEdukasi = () => {
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <div className="flex justify-between mb-4">
           <input
             type="text"
@@ -72,6 +72,9 @@ const ArtikelEdukasi = () => {
                   Penulis
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Sumber</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  Deskripsi
+                </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Isi</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Uploaded at
@@ -95,6 +98,9 @@ const ArtikelEdukasi = () => {
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.sumber}
+                  </td>
+                  <td className="px-6 py-2 border-b border-gray-300">
+                    {article.deskripsi}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.isi}
