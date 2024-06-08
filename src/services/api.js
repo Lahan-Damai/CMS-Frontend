@@ -78,9 +78,31 @@ export const logout = async () => {
   }
 };
 
+// ======================== EDUKASI ========================
+
 export const getArtikelEdukasi = async () => {
   try {
     const response = await api.get("/api/edukasi/get");
+    return response;
+  } catch (error) {
+    if (error.response) {
+      console.error(
+        "Server responded with error status:",
+        error.response.status
+      );
+      console.error("Error message from server:", error.response.data);
+    } else if (error.request) {
+      console.error("No response received from server:", error.request);
+    } else {
+      console.error("Error during request setup:", error.message);
+    }
+    throw error;
+  }
+};
+
+export const deleteArtikelEdukasi = async (id) => {
+  try {
+    const response = await api.delete(`/api/edukasi/delete/${id}`);
     return response;
   } catch (error) {
     if (error.response) {

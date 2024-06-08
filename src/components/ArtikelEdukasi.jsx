@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getArtikelEdukasi } from "../services/api";
+import { getArtikelEdukasi, deleteArtikelEdukasi } from "../services/api";
 
 const ArtikelEdukasi = () => {
   const [artikel, setArtikel] = useState([]);
@@ -27,9 +27,16 @@ const ArtikelEdukasi = () => {
     // Add your edit logic here
   };
 
-  const handleDelete = (id) => {
-    console.log("Delete article with ID:", id);
-    // Add your delete logic here
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteArtikelEdukasi(id);
+      console.log(response.data); // "success"
+
+      // Optionally, you can update the artikel state to remove the deleted article
+      setArtikel(artikel.filter((article) => article.id !== id));
+    } catch (error) {
+      console.error("Error deleting artikel edukasi:", error);
+    }
   };
 
   return (
