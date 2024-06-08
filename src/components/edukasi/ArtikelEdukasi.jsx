@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getArtikelEdukasi, deleteArtikelEdukasi } from "../services/api";
+import { getArtikelEdukasi, deleteArtikelEdukasi } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const ArtikelEdukasi = () => {
   const [artikel, setArtikel] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtikel = async () => {
@@ -27,6 +29,10 @@ const ArtikelEdukasi = () => {
     // Add your edit logic here
   };
 
+  const handleTambahEdukasi = () => {
+    navigate("/tambah-edukasi");
+  };
+
   const handleDelete = async (id) => {
     try {
       const response = await deleteArtikelEdukasi(id);
@@ -42,6 +48,19 @@ const ArtikelEdukasi = () => {
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+        <div className="flex justify-between mb-4">
+          <input
+            type="text"
+            placeholder="Filter artikel..."
+            className="p-2 border border-gray-300 rounded-lg w-1/2"
+          />
+          <button
+            onClick={handleTambahEdukasi}
+            className="p-2 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]"
+          >
+            Tambah Edukasi
+          </button>
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>

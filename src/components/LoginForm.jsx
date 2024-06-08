@@ -44,7 +44,7 @@ function LoginForm({ setIsLoggedIn }) {
                                 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                 value={email}
                                 onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Masukan Username"
+                                placeholder="Masukan Email"
                             />
                         </div>
                         <div className="relative">

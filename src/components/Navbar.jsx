@@ -58,7 +58,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             </Link>
             <div className="relative" ref={dropdownRef}>
               <img
-                src="damal.jpg"
+                src="public/damal.jpg"
                 alt="Profile"
                 className="w-10 h-10 rounded-full cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
