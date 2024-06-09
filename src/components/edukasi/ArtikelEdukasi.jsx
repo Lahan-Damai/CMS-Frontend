@@ -76,6 +76,8 @@ const ArtikelEdukasi = () => {
                   Deskripsi
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Isi</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">Foto</th>
+
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Uploaded at
                 </th>
@@ -104,6 +106,22 @@ const ArtikelEdukasi = () => {
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.isi}
+                  </td>
+                  <td className="px-6 py-2 border-b border-gray-300">
+                    {article.fotos && article.fotos.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {article.fotos.map((foto, index) => (
+                          <img
+                            key={index}
+                            src={foto}
+                            alt={`Foto ${index + 1}`}
+                            className="w-16 h-16 object-cover rounded-md"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.tanggal_upload}
