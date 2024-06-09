@@ -27,10 +27,21 @@ const TambahArtikel = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = e.target.files;
+    const files = Array.from(e.target.files);
+    if (files.length > 3) {
+      alert("You can upload up to 3 images only.");
+      return;
+    }
+    const validFiles = files.filter((file) =>
+      ["image/jpeg", "image/png", "image/gif", "image/jpg"].includes(file.type)
+    );
+    if (validFiles.length !== files.length) {
+      alert("Only image files are allowed.");
+      return;
+    }
     setFormData((prevData) => ({
       ...prevData,
-      foto: Array.from(files),
+      foto: [...prevData.foto, ...validFiles],
     }));
   };
 
@@ -66,7 +77,7 @@ const TambahArtikel = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
         <h1 className="text-2xl font-semibold mb-4">Tambah Artikel Edukasi</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+        <div>
             <label htmlFor="judul" className="block mb-1">
               Judul Artikel
             </label>
@@ -138,23 +149,41 @@ const TambahArtikel = () => {
               id="foto"
               name="foto"
               multiple
+              accept="image/*"
               onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {formData.foto.length > 0 && (
+              <div className="mt-2">
+                <strong>Preview Images:</strong>
+                <ul className="list-disc list-inside flex flex-wrap">
+                  {formData.foto.map((file, index) => (
+                    <li key={index} className="flex items-center mr-4 mb-2">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={file.name}
+                        className="max-w-[200px] max-h-[200px] object-contain"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <button
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-            onClick={handleCancel}
-            style={{ marginRight: "12px" }}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-[#5D3323] text-white rounded-lg py-2 px-4 hover:bg-[#4a271e]"
-          >
-            Buat Artikel
-          </button>
+          <div className="flex justify-end space-x-4">
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-[#5D3323] text-white rounded-lg py-2 px-4 hover:bg-[#4a271e]"
+            >
+              Buat Artikel
+            </button>
+          </div>
         </form>
       </div>
     </div>
