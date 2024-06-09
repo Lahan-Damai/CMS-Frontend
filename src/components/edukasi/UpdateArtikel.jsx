@@ -25,6 +25,7 @@ const EditArtikel = () => {
     const fetchData = async () => {
       try {
         const response = await getArtikelEdukasiById(id);
+        console.log(response)
         console.log(response.data);
         console.log(response.data.fotos);
         setFormData({

@@ -12,7 +12,7 @@ import ArtikelEdukasi from "./components/edukasi/ArtikelEdukasi";
 import TambahArtikel from "./components/edukasi/TambahArtikel";
 import EditArtikel from "./components/edukasi/UpdateArtikel";
 import LaporanSengketa from "./components/LaporanSengketa";
-import ProfilPengguna from "./components/ProfilPengguna";
+import ProfilPengguna from "./components/KelolaPengguna";
 import AhliTanah from "./components/AhliTanah";
 
 function App() {
