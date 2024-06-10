@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getProfilPengguna, switchUserRole } from "../services/api";
+import { getProfilPengguna, switchUserRole } from "../services/pengguna";
 
 const ProfilPengguna = () => {
   const [users, setUsers] = useState([]);

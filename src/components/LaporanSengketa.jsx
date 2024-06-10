@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getLaporanSengketa } from "../services/api";
+import { getLaporanSengketa } from "../services/laporan";
 
 const LaporanSengketa = () => {
 

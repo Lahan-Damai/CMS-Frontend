@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createArtikelEdukasi } from "../../services/api";
+import { createArtikelEdukasi } from "../../services/edukasi";
 
 const TambahArtikel = () => {
   const navigate = useNavigate();

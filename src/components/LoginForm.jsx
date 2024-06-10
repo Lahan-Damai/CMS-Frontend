@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api'; 
+import { login } from '../services/auth';
 
 function LoginForm({ setIsLoggedIn }) {
     const [email, setUsername] = useState('');

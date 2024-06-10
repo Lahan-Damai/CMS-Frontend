@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getArtikelEdukasi, deleteArtikelEdukasi } from "../../services/api";
+import { getArtikelEdukasi, deleteArtikelEdukasi } from "../../services/edukasi";
 import { useNavigate } from "react-router-dom";
 
 const ArtikelEdukasi = () => {
