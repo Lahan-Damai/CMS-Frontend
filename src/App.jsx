@@ -13,7 +13,7 @@ import TambahArtikel from "./components/edukasi/TambahArtikel";
 import EditArtikel from "./components/edukasi/UpdateArtikel";
 import LaporanSengketa from "./components/LaporanSengketa";
 import ProfilPengguna from "./components/KelolaPengguna";
-import AhliTanah from "./components/AhliTanah";
+import AhliTanah from "./components/ahliKonsultasi/AhliTanah";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

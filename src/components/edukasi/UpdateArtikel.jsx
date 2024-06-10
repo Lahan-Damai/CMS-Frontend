@@ -5,7 +5,7 @@ import {
   updateArtikelEdukasi,
   deletePostPhotos,
   addPhotosToPost,
-} from "../../services/api";
+} from "../../services/edukasi";
 
 const EditArtikel = () => {
   const navigate = useNavigate();
