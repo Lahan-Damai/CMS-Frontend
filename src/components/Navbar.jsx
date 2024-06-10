@@ -8,23 +8,20 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    // Check localStorage for login state
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (loggedIn) {
-      setIsLoggedIn(true);
-    }
-
+    setIsLoggedIn(loggedIn);
+  
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     }
-
+  
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsLoggedIn]);
+  }, []);
 
   const handleLogout = async () => {
     try {
