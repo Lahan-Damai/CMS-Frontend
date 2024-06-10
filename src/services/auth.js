@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "./apii";
 
 export const login = async (email, password) => {
   console.log(email);

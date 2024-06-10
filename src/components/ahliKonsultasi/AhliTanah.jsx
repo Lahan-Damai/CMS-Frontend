@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getAllExperts } from "../../services/ahliKonsultasi";
 
 const AhliTanah = () => {
-  const dummyData = {
-    data: [
-      {
-        id: 1,
-        nama: "John Doe",
-        bidang: "Psychology",
-        nomor_wa: "1234567890",
-        deskripsi: "Expert in psychology",
-        lama_kerja: "5",
-        foto: "https://storage.googleapis.com/bucket/1-photo.jpg",
-      },
-      // Add more data objects as needed
-    ],
-  };
+  const [experts, setExperts] = useState([]);
+
+  useEffect(() => {
+    const fetchExperts = async () => {
+      try {
+        const expertsData = await getAllExperts();
+        setExperts(expertsData.data);
+      } catch (error) {
+        console.error("Error fetching experts:", error);
+      }
+    };
+
+    fetchExperts();
+  }, []);
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -48,24 +49,18 @@ const AhliTanah = () => {
               </tr>
             </thead>
             <tbody>
-              {dummyData.data.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.nama}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.bidang}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {user.nomor_wa}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {user.deskripsi}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {user.lama_kerja}
-                  </td>
+              {experts.map((expert) => (
+                <tr key={expert.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.nama}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.bidang}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.nomor_wa}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.deskripsi}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{expert.lama_kerja}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <img
-                      src={user.foto}
-                      alt={`Foto ${user.nama}`}
+                      src={expert.foto}
+                      alt={`Foto ${expert.nama}`}
                       className="h-12 w-12 rounded-full"
                     />
                   </td>
