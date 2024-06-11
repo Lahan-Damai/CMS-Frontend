@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getAllExperts, deleteExpert } from "../../services/ahliKonsultasi";
+import { useNavigate } from "react-router-dom";
 
 const AhliTanah = () => {
   const [experts, setExperts] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExperts = async () => {
@@ -23,8 +26,11 @@ const AhliTanah = () => {
   };
 
   const handleEdit = (id) => {
-    // Navigate to the edit page for the expert with the given id
-    console.log(`Edit expert with id ${id}`);
+    navigate(`/edit-expert/${id}`);
+  };
+
+  const handleTambahAhli = () => {
+    navigate("/tambah-ahli");
   };
 
   const handleDelete = async (id) => {
@@ -38,9 +44,28 @@ const AhliTanah = () => {
     }
   };
 
+  const filteredExperts = experts.filter((expert) =>
+    expert.nama.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-6xl w-full">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full">
+        <div className="flex justify-between mb-4">
+          <input
+            type="text"
+            placeholder="Cari nama ahli..."
+            className="p-2 border border-gray-300 rounded-lg w-1/2"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            onClick={handleTambahAhli}
+            className="p-2 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]"
+          >
+            Tambah Ahli
+          </button>
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
@@ -70,7 +95,7 @@ const AhliTanah = () => {
               </tr>
             </thead>
             <tbody>
-              {experts.map((expert) => (
+              {filteredExperts.map((expert) => (
                 <tr key={expert.id}>
                   <td className="px-6 py-4 whitespace-nowrap">{expert.id}</td>
                   <td className="px-6 py-4 whitespace-nowrap truncate max-w-[200px] max-h-[50px]">
@@ -92,7 +117,7 @@ const AhliTanah = () => {
                     <img
                       src={expert.foto}
                       alt={`Foto ${expert.nama}`}
-                      className="h-12 w-12 rounded-full"
+                      className="h-16 w-16"
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right relative">

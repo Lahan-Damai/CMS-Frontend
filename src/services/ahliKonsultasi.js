@@ -39,3 +39,27 @@ export const deleteExpert = async (id) => {
     throw error;
   }
 };
+
+export const createAhli = async (formData) => {
+  try {
+    const response = await api.post(`/api/konsultasi/ahli/create`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error.response) {
+      console.error(
+        "Server responded with error status:",
+        error.response.status
+      );
+      console.error("Error message from server:", error.response.data);
+    } else if (error.request) {
+      console.error("No response received from server:", error.request);
+    } else {
+      console.error("Error during request setup:", error.message);
+    }
+    throw error;
+  }
+};

@@ -9,8 +9,9 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  
+    if (!loggedIn) {
+      setIsLoggedIn(false);
+    }
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);

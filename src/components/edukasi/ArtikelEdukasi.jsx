@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { getArtikelEdukasi, deleteArtikelEdukasi } from "../../services/edukasi";
+import {
+  getArtikelEdukasi,
+  deleteArtikelEdukasi,
+} from "../../services/edukasi";
 import { useNavigate } from "react-router-dom";
 
 const ArtikelEdukasi = () => {
   const [artikel, setArtikel] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,14 +48,20 @@ const ArtikelEdukasi = () => {
     }
   };
 
+  const filteredArtikel = artikel.filter((article) =>
+    article.judul.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <div className="flex justify-between mb-4">
           <input
             type="text"
-            placeholder="Filter artikel..."
+            placeholder="Cari judul artikel..."
             className="p-2 border border-gray-300 rounded-lg w-1/2"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
             onClick={handleTambahEdukasi}
@@ -77,7 +87,6 @@ const ArtikelEdukasi = () => {
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Isi</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Foto</th>
-
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Uploaded at
                 </th>
@@ -87,7 +96,7 @@ const ArtikelEdukasi = () => {
               </tr>
             </thead>
             <tbody>
-              {artikel.map((article) => (
+              {filteredArtikel.map((article) => (
                 <tr key={article.id}>
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     {article.id}
