@@ -26,7 +26,7 @@ const AhliTanah = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/edit-expert/${id}`);
+    navigate(`/edit-ahli/${id}`);
   };
 
   const handleTambahAhli = () => {

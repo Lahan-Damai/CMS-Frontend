@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createAhli } from "../../services/ahliKonsultasi";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAhliById, updateAhli } from "../../services/ahliKonsultasi";
 
-const TambahAhli = () => {
+const EditAhli = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); 
   const [formData, setFormData] = useState({
     nama: "",
     bidang: "",
@@ -12,6 +13,19 @@ const TambahAhli = () => {
     lama_kerja: "",
     foto: null,
   });
+  const [newImage, setNewImage] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAhliById(id);
+        setFormData(response.data);
+      } catch (error) {
+        console.error("Error fetching ahli:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,10 +49,7 @@ const TambahAhli = () => {
       alert("Only image files are allowed.");
       return;
     }
-    setFormData((prevData) => ({
-      ...prevData,
-      foto: file,
-    }));
+    setNewImage(file);
   };
 
   const handleSubmit = async (e) => {
@@ -50,17 +61,20 @@ const TambahAhli = () => {
       formDataToSend.append("nomor_wa", formData.nomor_wa);
       formDataToSend.append("deskripsi", formData.deskripsi);
       formDataToSend.append("lama_kerja", formData.lama_kerja);
-      if (formData.foto) {
+  
+      if (newImage) {
+        formDataToSend.append("foto", newImage);
+      } else {
         formDataToSend.append("foto", formData.foto);
       }
-      const response = await createAhli(formDataToSend);
-      console.log("New ahli created:", response.data);
+  
+      const response = await updateAhli(id, formDataToSend);
+      console.log("Ahli updated:", response.data);
       navigate("/daftar-ahli");
     } catch (error) {
-      console.error("Error creating ahli:", error);
+      console.error("Error updating ahli:", error);
     }
   };
-
   const handleCancel = () => {
     navigate("/daftar-ahli");
   };
@@ -68,7 +82,7 @@ const TambahAhli = () => {
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
-        <h1 className="text-2xl font-semibold mb-4">Tambah Ahli Tanah</h1>
+        <h1 className="text-2xl font-semibold mb-4">Edit Ahli Tanah</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="nama" className="block mb-1">
@@ -104,7 +118,7 @@ const TambahAhli = () => {
               type="tel"
               id="nomor_wa"
               name="nomor_wa"
-              value={formData.nom_wa}
+              value={formData.nomor_wa}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
@@ -148,10 +162,20 @@ const TambahAhli = () => {
             />
             {formData.foto && (
               <div className="mt-2">
-                <strong>Preview Image:</strong>
+                <strong>Existing Image:</strong>
                 <img
-                  src={URL.createObjectURL(formData.foto)}
-                  alt={formData.foto.name}
+                  src={formData.foto}
+                  alt="Existing Image"
+                  className="max-w-[200px] max-h-[200px] object-contain"
+                />
+              </div>
+            )}
+            {newImage && (
+              <div className="mt-2">
+                <strong>New Image:</strong>
+                <img
+                  src={URL.createObjectURL(newImage)}
+                  alt={newImage.name}
                   className="max-w-[200px] max-h-[200px] object-contain"
                 />
               </div>
@@ -168,7 +192,7 @@ const TambahAhli = () => {
               type="submit"
               className="bg-[#5D3323] text-white rounded-lg py-2 px-4 hover:bg-[#4a271e]"
             >
-              Tambah Ahli
+              Save Changes
             </button>
           </div>
         </form>
@@ -177,4 +201,4 @@ const TambahAhli = () => {
   );
 };
 
-export default TambahAhli;
+export default EditAhli;

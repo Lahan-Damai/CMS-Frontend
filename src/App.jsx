@@ -15,6 +15,7 @@ import LaporanSengketa from "./components/LaporanSengketa";
 import ProfilPengguna from "./components/KelolaPengguna";
 import AhliTanah from "./components/ahliKonsultasi/AhliTanah";
 import TambahAhli from "./components/ahliKonsultasi/TambahAhli";
+import EditAhli from "./components/ahliKonsultasi/UpdateAhli";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,9 +37,9 @@ function App() {
           <Route path="/edit-edukasi/:id" element={<EditArtikel />} />
           <Route path="/laporan-sengketa" element={<LaporanSengketa />} />
           <Route path="/daftar-profil" element={<ProfilPengguna />} />
-          <Route path="/daftar-ahli-tanah" element={<AhliTanah />} />
+          <Route path="/daftar-ahli" element={<AhliTanah />} />
           <Route path="/tambah-ahli" element={<TambahAhli />} />
-
+          <Route path="/edit-ahli/:id" element={<EditAhli />} />
         </Routes>
       </div>
     </Router>

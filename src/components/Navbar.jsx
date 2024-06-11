@@ -17,7 +17,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
         setIsDropdownOpen(false);
       }
     }
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -51,7 +51,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             <Link to="/daftar-profil" className="text-white">
               Daftar Profil
             </Link>
-            <Link to="/daftar-ahli-tanah" className="text-white">
+            <Link to="/daftar-ahli" className="text-white">
               Daftar Ahli Tanah
             </Link>
             <div className="relative" ref={dropdownRef}>
