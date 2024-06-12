@@ -12,6 +12,5 @@ Currently, two official plugins are available:
 - npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core
 - npm install react-router-dom
 - npm install axios
-- npm install @popperjs/core react-popper
 
 

@@ -54,6 +54,9 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             <Link to="/daftar-ahli" className="text-white">
               Daftar Ahli Tanah
             </Link>
+            <Link to="/forum" className="text-white">
+              Forum
+            </Link>
             <div className="relative" ref={dropdownRef}>
               <img
                 src="public/damal.jpg"
