@@ -8,12 +8,10 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    // Check localStorage for login state
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (loggedIn) {
-      setIsLoggedIn(true);
+    if (!loggedIn) {
+      setIsLoggedIn(false);
     }
-
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -24,7 +22,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsLoggedIn]);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -53,7 +51,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             <Link to="/daftar-profil" className="text-white">
               Daftar Profil
             </Link>
-            <Link to="/daftar-ahli-tanah" className="text-white">
+            <Link to="/daftar-ahli" className="text-white">
               Daftar Ahli Tanah
             </Link>
             <Link to="/forum" className="text-white">
