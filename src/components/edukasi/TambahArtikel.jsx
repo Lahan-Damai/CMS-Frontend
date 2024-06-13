@@ -14,17 +14,24 @@ const TambahArtikel = () => {
     is_recommended: false,
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "is_recommended" ? e.target.value === "true" : value,
+      [name]: value,
     }));
 
     if (e.target.type === "textarea") {
       e.target.style.height = "auto";
       e.target.style.height = e.target.scrollHeight + "px";
     }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Clear the error message for the current field
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -46,8 +53,24 @@ const TambahArtikel = () => {
     }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.judul) newErrors.judul = "Judul is required.";
+    if (!formData.deskripsi) newErrors.deskripsi = "Deskripsi is required.";
+    if (!formData.isi) newErrors.isi = "Isi is required.";
+    if (!formData.publisher) newErrors.publisher = "Publisher is required.";
+    if (!formData.sumber) newErrors.sumber = "Sumber is required.";
+    if (formData.foto.length === 0)
+      newErrors.foto = "At least one photo is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("judul", formData.judul);
@@ -91,6 +114,9 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.judul && (
+              <div className="text-red-500 text-sm mt-1">{errors.judul}</div>
+            )}
           </div>
           <div>
             <label htmlFor="publisher" className="block mb-1">
@@ -104,6 +130,11 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.publisher && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.publisher}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="sumber" className="block mb-1">
@@ -117,6 +148,9 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.sumber && (
+              <div className="text-red-500 text-sm mt-1">{errors.sumber}</div>
+            )}
           </div>
           <div>
             <label htmlFor="is_recommended" className="block mb-1">
@@ -132,6 +166,11 @@ const TambahArtikel = () => {
               <option value={false}>Tidak</option>
               <option value={true}>Iya</option>
             </select>
+            {errors.is_recommended && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.is_recommended}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">
@@ -144,6 +183,11 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.deskripsi && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.deskripsi}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="isi" className="block mb-1">
@@ -156,6 +200,9 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.isi && (
+              <div className="text-red-500 text-sm mt-1">{errors.isi}</div>
+            )}
           </div>
           <div>
             <label htmlFor="foto" className="block mb-1">
@@ -170,6 +217,9 @@ const TambahArtikel = () => {
               onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.foto && (
+              <div className="text-red-500 text-sm mt-1">{errors.foto}</div>
+            )}
             {formData.foto.length > 0 && (
               <div className="mt-2">
                 <strong>Preview Images:</strong>

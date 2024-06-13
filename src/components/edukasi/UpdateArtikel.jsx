@@ -16,8 +16,11 @@ const EditArtikel = () => {
     isi: "",
     publisher: "",
     sumber: "",
+    foto: [],
     is_recommended: false,
   });
+
+  const [errors, setErrors] = useState({});
   const [existingImages, setExistingImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
   const [deleteAll, setDeleteAll] = useState(false);
@@ -26,15 +29,11 @@ const EditArtikel = () => {
     const fetchData = async () => {
       try {
         const response = await getArtikelEdukasiById(id);
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.fotos);
-        console.log(response.data.is_recommended);
         setFormData({
           ...response.data,
-          foto: response.data.fotos || [], // Set foto to an empty array if it's undefined or null
+          foto: response.data.fotos || [],
         });
-        setExistingImages(response.data.fotos || []); // Set existingImages to an empty array if it's undefined or null
+        setExistingImages(response.data.fotos || []);
       } catch (error) {
         console.error("Error fetching artikel edukasi:", error);
       }
@@ -53,6 +52,11 @@ const EditArtikel = () => {
       e.target.style.height = "auto";
       e.target.style.height = e.target.scrollHeight + "px";
     }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -76,8 +80,24 @@ const EditArtikel = () => {
     setDeleteAll(true);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.judul) newErrors.judul = "Judul is required.";
+    if (!formData.deskripsi) newErrors.deskripsi = "Deskripsi is required.";
+    if (!formData.isi) newErrors.isi = "Isi is required.";
+    if (!formData.publisher) newErrors.publisher = "Publisher is required.";
+    if (!formData.sumber) newErrors.sumber = "Sumber is required.";
+    if (formData.foto.length + newImages.length === 0)
+      newErrors.foto = "At least one photo is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       if (deleteAll) {
         await deletePostPhotos(id);
@@ -89,10 +109,7 @@ const EditArtikel = () => {
       formDataToSend.append("isi", formData.isi);
       formDataToSend.append("publisher", formData.publisher);
       formDataToSend.append("sumber", formData.sumber);
-      console.log(formData.is_recommended);
       formDataToSend.append("is_recommended", formData.is_recommended);
-      console.log(formData);
-      console.log(formDataToSend);
       await updateArtikelEdukasi(id, formDataToSend);
 
       if (newImages.length > 0) {
@@ -129,6 +146,9 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.judul && (
+              <div className="text-red-500 text-sm mt-1">{errors.judul}</div>
+            )}
           </div>
           <div>
             <label htmlFor="publisher" className="block mb-1">
@@ -142,6 +162,11 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.publisher && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.publisher}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="sumber" className="block mb-1">
@@ -155,6 +180,9 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.sumber && (
+              <div className="text-red-500 text-sm mt-1">{errors.sumber}</div>
+            )}
           </div>
           <div>
             <label htmlFor="is_recommended" className="block mb-1">
@@ -175,6 +203,11 @@ const EditArtikel = () => {
               <option value={false}>Tidak</option>
               <option value={true}>Iya</option>
             </select>
+            {errors.is_recommended && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.is_recommended}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">
@@ -187,6 +220,11 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.deskripsi && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.deskripsi}
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="isi" className="block mb-1">
@@ -199,6 +237,9 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.isi && (
+              <div className="text-red-500 text-sm mt-1">{errors.isi}</div>
+            )}
           </div>
           <div>
             <label htmlFor="foto" className="block mb-1">
@@ -213,6 +254,9 @@ const EditArtikel = () => {
               onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.foto && (
+              <div className="text-red-500 text-sm mt-1">{errors.foto}</div>
+            )}
             <div className="flex">
               <div className="w-1/2">
                 {existingImages.length > 0 && (
@@ -277,5 +321,4 @@ const EditArtikel = () => {
     </div>
   );
 };
-
 export default EditArtikel;
