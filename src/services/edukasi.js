@@ -86,12 +86,10 @@ export const deleteArtikelEdukasi = async (id) => {
 };
 
 export const updateArtikelEdukasi = async (id, data) => {
+  console.log(data);
   try {
-    const response = await api.put(`/api/edukasi/update/${id}`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await api.put(`/api/edukasi/update/${id}`, data);
+    console.log(response);
     return response;
   } catch (error) {
     if (error.response) {

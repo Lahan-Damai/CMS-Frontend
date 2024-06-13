@@ -11,13 +11,14 @@ const TambahArtikel = () => {
     publisher: "",
     sumber: "",
     foto: [],
+    is_recommended: false,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "is_recommended" ? e.target.value === "true" : value,
     }));
 
     if (e.target.type === "textarea") {
@@ -54,6 +55,7 @@ const TambahArtikel = () => {
       formDataToSend.append("isi", formData.isi);
       formDataToSend.append("publisher", formData.publisher);
       formDataToSend.append("sumber", formData.sumber);
+      formDataToSend.append("is_recommended", formData.is_recommended);
       formDataToSend.append("tanggal_upload", new Date().toISOString());
       formData.foto.forEach((file) => {
         formDataToSend.append("foto", file);
@@ -77,7 +79,7 @@ const TambahArtikel = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
         <h1 className="text-2xl font-semibold mb-4">Tambah Artikel Edukasi</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+          <div>
             <label htmlFor="judul" className="block mb-1">
               Judul Artikel
             </label>
@@ -115,6 +117,21 @@ const TambahArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+          </div>
+          <div>
+            <label htmlFor="is_recommended" className="block mb-1">
+              Apakah Artikel Direkomendasikan?
+            </label>
+            <select
+              id="is_recommended"
+              name="is_recommended"
+              value={formData.is_recommended}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            >
+              <option value={false}>Tidak</option>
+              <option value={true}>Iya</option>
+            </select>
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">

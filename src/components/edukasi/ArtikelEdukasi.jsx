@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   getArtikelEdukasi,
   deleteArtikelEdukasi,
+  updateArtikelEdukasi,
 } from "../../services/edukasi";
 import { useNavigate } from "react-router-dom";
 
@@ -41,10 +42,29 @@ const ArtikelEdukasi = () => {
       const response = await deleteArtikelEdukasi(id);
       console.log(response.data); // "success"
 
-      // Optionally, you can update the artikel state to remove the deleted article
       setArtikel(artikel.filter((article) => article.id !== id));
     } catch (error) {
       console.error("Error deleting artikel edukasi:", error);
+    }
+  };
+
+  const handleRekomendasiChange = async (id, isRecommended) => {
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("is_recommended", isRecommended);
+
+      await updateArtikelEdukasi(id, formDataToSend);
+
+      // Update the artikel state with the updated artikel data
+      setArtikel((prevArtikel) =>
+        prevArtikel.map((article) =>
+          article.id === id
+            ? { ...article, is_recommended: isRecommended }
+            : article
+        )
+      );
+    } catch (error) {
+      console.error("Error updating artikel edukasi:", error);
     }
   };
 
@@ -54,7 +74,7 @@ const ArtikelEdukasi = () => {
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-7xl">
         <div className="flex justify-between mb-4">
           <input
             type="text"
@@ -74,7 +94,6 @@ const ArtikelEdukasi = () => {
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="px-6 py-2 border-b-2 border-gray-300">ID</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Judul Artikel
                 </th>
@@ -90,6 +109,9 @@ const ArtikelEdukasi = () => {
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Uploaded at
                 </th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  Rekomendasi
+                </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-right">
                   Actions
                 </th>
@@ -98,9 +120,6 @@ const ArtikelEdukasi = () => {
             <tbody>
               {filteredArtikel.map((article) => (
                 <tr key={article.id}>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
-                    {article.id}
-                  </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.judul}
                   </td>
@@ -134,6 +153,21 @@ const ArtikelEdukasi = () => {
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.tanggal_upload}
+                  </td>
+                  <td className="px-6 py-2 border-b border-gray-300">
+                    <select
+                      value={article.is_recommended ? "Iya" : "Tidak"}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                      onChange={(e) =>
+                        handleRekomendasiChange(
+                          article.id,
+                          e.target.value === "Iya"
+                        )
+                      }
+                    >
+                      <option value="Iya">Iya</option>
+                      <option value="Tidak">Tidak</option>
+                    </select>
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300 text-right relative">
                     <button
