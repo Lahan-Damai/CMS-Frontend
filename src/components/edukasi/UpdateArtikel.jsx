@@ -16,6 +16,7 @@ const EditArtikel = () => {
     isi: "",
     publisher: "",
     sumber: "",
+    is_recommended: false,
   });
   const [existingImages, setExistingImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
@@ -25,9 +26,10 @@ const EditArtikel = () => {
     const fetchData = async () => {
       try {
         const response = await getArtikelEdukasiById(id);
-        console.log(response)
+        console.log(response);
         console.log(response.data);
         console.log(response.data.fotos);
+        console.log(response.data.is_recommended);
         setFormData({
           ...response.data,
           foto: response.data.fotos || [], // Set foto to an empty array if it's undefined or null
@@ -87,7 +89,10 @@ const EditArtikel = () => {
       formDataToSend.append("isi", formData.isi);
       formDataToSend.append("publisher", formData.publisher);
       formDataToSend.append("sumber", formData.sumber);
-
+      console.log(formData.is_recommended);
+      formDataToSend.append("is_recommended", formData.is_recommended);
+      console.log(formData);
+      console.log(formDataToSend);
       await updateArtikelEdukasi(id, formDataToSend);
 
       if (newImages.length > 0) {
@@ -97,7 +102,6 @@ const EditArtikel = () => {
         });
         await addPhotosToPost(id, photoFormData);
       }
-
       navigate("/artikel-edukasi");
     } catch (error) {
       console.error("Error updating artikel edukasi:", error);
@@ -151,6 +155,26 @@ const EditArtikel = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+          </div>
+          <div>
+            <label htmlFor="is_recommended" className="block mb-1">
+              Apakah Artikel Direkomendasikan?
+            </label>
+            <select
+              id="is_recommended"
+              name="is_recommended"
+              value={formData.is_recommended}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  is_recommended: e.target.value === "true",
+                })
+              }
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            >
+              <option value={false}>Tidak</option>
+              <option value={true}>Iya</option>
+            </select>
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">
