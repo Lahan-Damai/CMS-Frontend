@@ -8,6 +8,7 @@ function LoginForm({ setIsLoggedIn }) {
     const [email, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -21,6 +22,15 @@ function LoginForm({ setIsLoggedIn }) {
             localStorage.setItem("isLoggedIn", "true"); // Ensure this is set
             navigate('/dashboard');
         } catch (error) {
+            if (error.response) {
+                if (error.response.status === 500) {
+                    setErrorMessage('Server error. Please try again later.');
+                } else {
+                    setErrorMessage('Email or password is incorrect.');
+                }
+            } else {
+                setErrorMessage('An unexpected error occurred. Please try again.');
+            }
             console.error('Login error:', error);
         }
     };
@@ -65,6 +75,11 @@ function LoginForm({ setIsLoggedIn }) {
                                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                             </span>
                         </div>
+                        {errorMessage && (
+                            <div className="text-red-500 text-sm mt-2">
+                                {errorMessage}
+                            </div>
+                        )}
                         <button type="submit" className="w-full p-4 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]">Login</button>
                     </form>
                 </div>
