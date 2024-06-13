@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAhli } from "../../services/ahliKonsultasi";
 
+const bidangOptions = [
+  'Surveyor Tanah',
+  'Notaris / PPAT',
+  'Pengacara Pertanahan',
+  'Ahli Geologi / Geoteknik',
+  'Pengembang Real Estate',
+  'Perencana Kota dan Wilayah',
+  'Ahli Lingkungan'
+];
+
 const TambahAhli = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -12,6 +22,8 @@ const TambahAhli = () => {
     lama_kerja: "",
     foto: null,
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,14 +36,16 @@ const TambahAhli = () => {
       e.target.style.height = "auto";
       e.target.style.height = e.target.scrollHeight + "px";
     }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Clear the error message for the current field
+    }));
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (
-      !file ||
-      !["image/jpeg", "image/png", "image/gif", "image/jpg"].includes(file.type)
-    ) {
+    if (!file || !["image/jpeg", "image/png", "image/gif", "image/jpg"].includes(file.type)) {
       alert("Only image files are allowed.");
       return;
     }
@@ -39,10 +53,29 @@ const TambahAhli = () => {
       ...prevData,
       foto: file,
     }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      foto: "", // Clear the error message for the current field
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.nama) newErrors.nama = "Nama is required.";
+    if (!formData.bidang) newErrors.bidang = "Bidang is required.";
+    if (!formData.nomor_wa) newErrors.nomor_wa = "Nomor WhatsApp is required.";
+    if (!formData.deskripsi) newErrors.deskripsi = "Deskripsi is required.";
+    if (!formData.lama_kerja) newErrors.lama_kerja = "Lama Kerja is required.";
+    if (!formData.foto) newErrors.foto = "Foto is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("nama", formData.nama);
@@ -82,19 +115,31 @@ const TambahAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.nama && (
+              <div className="text-red-500 text-sm mt-1">{errors.nama}</div>
+            )}
           </div>
           <div>
             <label htmlFor="bidang" className="block mb-1">
               Bidang
             </label>
-            <input
-              type="text"
+            <select
               id="bidang"
               name="bidang"
               value={formData.bidang}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            />
+            >
+              <option value="">Pilih Bidang</option>
+              {bidangOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {errors.bidang && (
+              <div className="text-red-500 text-sm mt-1">{errors.bidang}</div>
+            )}
           </div>
           <div>
             <label htmlFor="nomor_wa" className="block mb-1">
@@ -104,10 +149,13 @@ const TambahAhli = () => {
               type="tel"
               id="nomor_wa"
               name="nomor_wa"
-              value={formData.nom_wa}
+              value={formData.nomor_wa}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.nomor_wa && (
+              <div className="text-red-500 text-sm mt-1">{errors.nomor_wa}</div>
+            )}
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">
@@ -120,6 +168,9 @@ const TambahAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.deskripsi && (
+              <div className="text-red-500 text-sm mt-1">{errors.deskripsi}</div>
+            )}
           </div>
           <div>
             <label htmlFor="lama_kerja" className="block mb-1">
@@ -133,6 +184,9 @@ const TambahAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.lama_kerja && (
+              <div className="text-red-500 text-sm mt-1">{errors.lama_kerja}</div>
+            )}
           </div>
           <div>
             <label htmlFor="foto" className="block mb-1">
@@ -146,6 +200,9 @@ const TambahAhli = () => {
               onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.foto && (
+              <div className="text-red-500 text-sm mt-1">{errors.foto}</div>
+            )}
             {formData.foto && (
               <div className="mt-2">
                 <strong>Preview Image:</strong>

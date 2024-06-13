@@ -36,7 +36,7 @@ const AhliTanah = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteExpert(id);
-      console.log(response.data); 
+      console.log(response.data);
 
       setExperts(experts.filter((expert) => expert.id !== id));
     } catch (error) {
@@ -71,9 +71,6 @@ const AhliTanah = () => {
             <thead>
               <tr>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  ID
-                </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
                   Nama
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
@@ -97,30 +94,29 @@ const AhliTanah = () => {
             <tbody>
               {filteredExperts.map((expert) => (
                 <tr key={expert.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{expert.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap truncate max-w-[200px] max-h-[50px]">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {expert.nama}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap truncate max-w-[200px] max-h-[50px]">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {expert.bidang}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {expert.nomor_wa}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap truncate max-w-[300px] max-h-[50px]">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {expert.deskripsi}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {expert.lama_kerja}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     <img
                       src={expert.foto}
                       alt={`Foto ${expert.nama}`}
                       className="h-16 w-16"
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right relative">
+                  <td className="px-6 py-2 border-b border-gray-300 text-right relative">
                     <button
                       className="border border-gray-300 rounded px-2 py-2 text-gray-500 hover:bg-gray-100 relative"
                       onClick={() => handleDropdownToggle(expert.id)}

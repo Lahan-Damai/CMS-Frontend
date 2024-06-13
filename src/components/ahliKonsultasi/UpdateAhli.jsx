@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAhliById, updateAhli } from "../../services/ahliKonsultasi";
 
+const bidangOptions = [
+  'Surveyor Tanah',
+  'Notaris / PPAT',
+  'Pengacara Pertanahan',
+  'Ahli Geologi / Geoteknik',
+  'Pengembang Real Estate',
+  'Perencana Kota dan Wilayah',
+  'Ahli Lingkungan'
+];
+
 const EditAhli = () => {
   const navigate = useNavigate();
   const { id } = useParams(); 
@@ -14,6 +24,7 @@ const EditAhli = () => {
     foto: null,
   });
   const [newImage, setNewImage] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +49,11 @@ const EditAhli = () => {
       e.target.style.height = "auto";
       e.target.style.height = e.target.scrollHeight + "px";
     }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Clear the error message for the current field
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -52,8 +68,22 @@ const EditAhli = () => {
     setNewImage(file);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.nama) newErrors.nama = "Nama is required.";
+    if (!formData.bidang) newErrors.bidang = "Bidang is required.";
+    if (!formData.nomor_wa) newErrors.nomor_wa = "Nomor WhatsApp is required.";
+    if (!formData.deskripsi) newErrors.deskripsi = "Deskripsi is required.";
+    if (!formData.lama_kerja) newErrors.lama_kerja = "Lama Kerja is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("nama", formData.nama);
@@ -75,6 +105,7 @@ const EditAhli = () => {
       console.error("Error updating ahli:", error);
     }
   };
+
   const handleCancel = () => {
     navigate("/daftar-ahli");
   };
@@ -96,19 +127,31 @@ const EditAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.nama && (
+              <div className="text-red-500 text-sm mt-1">{errors.nama}</div>
+            )}
           </div>
           <div>
             <label htmlFor="bidang" className="block mb-1">
               Bidang
             </label>
-            <input
-              type="text"
+            <select
               id="bidang"
               name="bidang"
               value={formData.bidang}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            />
+            >
+              <option value="">Pilih Bidang</option>
+              {bidangOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {errors.bidang && (
+              <div className="text-red-500 text-sm mt-1">{errors.bidang}</div>
+            )}
           </div>
           <div>
             <label htmlFor="nomor_wa" className="block mb-1">
@@ -122,6 +165,9 @@ const EditAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.nomor_wa && (
+              <div className="text-red-500 text-sm mt-1">{errors.nomor_wa}</div>
+            )}
           </div>
           <div>
             <label htmlFor="deskripsi" className="block mb-1">
@@ -134,6 +180,9 @@ const EditAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
             />
+            {errors.deskripsi && (
+              <div className="text-red-500 text-sm mt-1">{errors.deskripsi}</div>
+            )}
           </div>
           <div>
             <label htmlFor="lama_kerja" className="block mb-1">
@@ -147,6 +196,9 @@ const EditAhli = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
+            {errors.lama_kerja && (
+              <div className="text-red-500 text-sm mt-1">{errors.lama_kerja}</div>
+            )}
           </div>
           <div>
             <label htmlFor="foto" className="block mb-1">
