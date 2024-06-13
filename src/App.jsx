@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,9 +21,13 @@ import EditAhli from "./components/ahliKonsultasi/UpdateAhli";
 import Forum from "./components/forum/Forum";
 import Replies from "./components/forum/Replies";
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
 
   return (
     <Router>
@@ -47,10 +51,8 @@ function App() {
           <Route path="/tambah-ahli" element={<TambahAhli />} />
           <Route path="/edit-ahli/:id" element={<EditAhli />} />
 
-         
           <Route path="/forum" element={<Forum />} />
           <Route path="/forum/:id" element={<Replies />} />
-
         </Routes>
       </div>
     </Router>

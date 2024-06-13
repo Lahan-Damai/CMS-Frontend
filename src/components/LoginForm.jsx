@@ -18,10 +18,10 @@ function LoginForm({ setIsLoggedIn }) {
             const userData = await login(email, password);
             console.log('User logged in:', userData);
             setIsLoggedIn(true);
+            localStorage.setItem("isLoggedIn", "true"); // Ensure this is set
             navigate('/dashboard');
         } catch (error) {
             console.error('Login error:', error);
-          
         }
     };
 

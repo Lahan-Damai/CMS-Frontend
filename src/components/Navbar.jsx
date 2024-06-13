@@ -9,9 +9,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!loggedIn) {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(loggedIn);
+    
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -22,7 +21,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setIsLoggedIn]);
 
   const handleLogout = async () => {
     try {
