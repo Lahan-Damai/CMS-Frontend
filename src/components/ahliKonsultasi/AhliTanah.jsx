@@ -44,6 +44,10 @@ const AhliTanah = () => {
     }
   };
 
+  const handleUlasan = (id) => {
+    navigate(`/ulasan-ahli/${id}`);
+  };
+
   const filteredExperts = experts.filter((expert) =>
     expert.nama.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -88,6 +92,9 @@ const AhliTanah = () => {
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
                   Foto
                 </th>
+                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                  Ulasan
+                </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300"></th>
               </tr>
             </thead>
@@ -115,6 +122,14 @@ const AhliTanah = () => {
                       alt={`Foto ${expert.nama}`}
                       className="h-16 w-16"
                     />
+                  </td>
+                  <td className="px-6 py-2 border-b border-gray-300 text-center relative">
+                    <button
+                      className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                      onClick={() => handleUlasan(expert.id)}
+                    >
+                      Lihat
+                    </button>
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300 text-right relative">
                     <button

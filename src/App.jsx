@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,15 +11,16 @@ import Dashboard from "./components/Dashboard";
 import ArtikelEdukasi from "./components/edukasi/ArtikelEdukasi";
 import TambahArtikel from "./components/edukasi/TambahArtikel";
 import EditArtikel from "./components/edukasi/UpdateArtikel";
-import LaporanSengketa from "./components/LaporanSengketa";
-import ProfilPengguna from "./components/KelolaPengguna";
+import LaporanSengketa from "./components/laporan/LaporanSengketa";
+import ProfilPengguna from "./components/pengguna/KelolaPengguna";
 import AhliTanah from "./components/ahliKonsultasi/AhliTanah";
-
 import TambahAhli from "./components/ahliKonsultasi/TambahAhli";
 import EditAhli from "./components/ahliKonsultasi/UpdateAhli";
-
+import ExpertReviews from "./components/ahliKonsultasi/UlasanRatingAhli";
 import Forum from "./components/forum/Forum";
 import Replies from "./components/forum/Replies";
+import ViewUser from "./components/pengguna/PenggunaDetail";
+import LaporanDetail from "./components/laporan/LaporanDetail";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,21 +39,93 @@ function App() {
             path="/login"
             element={<LoginForm setIsLoggedIn={setIsLoggedIn} />}
           />
-          <Route path="/dashboard" element={<Dashboard />} />
-
+          <Route
+            path="/dashboard"
+            element={
+              isLoggedIn ? <Dashboard /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/artikel-edukasi"
+            element={
+              isLoggedIn ? <ArtikelEdukasi /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/tambah-edukasi"
+            element={
+              isLoggedIn ? <TambahArtikel /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/edit-edukasi/:id"
+            element={
+              isLoggedIn ? <EditArtikel /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/laporan-sengketa"
+            element={
+              isLoggedIn ? (
+                <LaporanSengketa />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/daftar-profil"
+            element={
+              isLoggedIn ? <ProfilPengguna /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/daftar-ahli"
+            element={
+              isLoggedIn ? <AhliTanah /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/tambah-ahli"
+            element={
+              isLoggedIn ? <TambahAhli /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/edit-ahli/:id"
+            element={
+              isLoggedIn ? <EditAhli /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/ulasan-ahli/:id"
+            element={
+              isLoggedIn ? <ExpertReviews /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/forum"
+            element={isLoggedIn ? <Forum /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/forum/:id"
+            element={
+              isLoggedIn ? <Replies /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/view-user/:nik"
+            element={
+              isLoggedIn ? <ViewUser /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/laporan-sengketa/:noSertifikat"
+            element={
+              isLoggedIn ? <LaporanDetail /> : <Navigate to="/login" replace />
+            }
+          />
           <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route path="/artikel-edukasi" element={<ArtikelEdukasi />} />
-          <Route path="/tambah-edukasi" element={<TambahArtikel />} />
-          <Route path="/edit-edukasi/:id" element={<EditArtikel />} />
-          <Route path="/laporan-sengketa" element={<LaporanSengketa />} />
-          <Route path="/daftar-profil" element={<ProfilPengguna />} />
-
-          <Route path="/daftar-ahli" element={<AhliTanah />} />
-          <Route path="/tambah-ahli" element={<TambahAhli />} />
-          <Route path="/edit-ahli/:id" element={<EditAhli />} />
-
-          <Route path="/forum" element={<Forum />} />
-          <Route path="/forum/:id" element={<Replies />} />
         </Routes>
       </div>
     </Router>

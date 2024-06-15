@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getProfilPengguna, switchUserRole } from "../services/pengguna";
+import { getProfilPengguna, switchUserRole } from "../../services/pengguna";
+import { useNavigate } from "react-router-dom";
 
 const ProfilPengguna = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,6 +33,10 @@ const ProfilPengguna = () => {
     }
   };
 
+  const handleLihat = (nik) => {
+    navigate(`/view-user/${nik}`);
+  };
+
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -51,25 +57,17 @@ const ProfilPengguna = () => {
           <table className="min-w-full bg-white table-auto">
             <thead>
               <tr>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  NIK
-                </th>
+                <th className="px-4 py-2 border-b-2 border-gray-300">NIK</th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
                   Nama Pengguna
                 </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Email
-                </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Alamat
-                </th>
+                <th className="px-4 py-2 border-b-2 border-gray-300">Email</th>
+                <th className="px-4 py-2 border-b-2 border-gray-300">Alamat</th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
                   Tanggal Lahir
                 </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Role
-                </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300"></th>
+                <th className="px-4 py-2 border-b-2 border-gray-300">Role</th>
+                <th className="px-4 py-2 border-b-2 border-gray-300">Detail</th>
               </tr>
             </thead>
             <tbody>
@@ -101,6 +99,14 @@ const ProfilPengguna = () => {
                       <option value="user">Umum</option>
                       <option value="admin">Admin</option>
                     </select>
+                  </td>
+                  <td className="px-6 py-2 border-b border-gray-300 text-center relative">
+                    <button
+                      className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                      onClick={() => handleLihat(user.nik)}
+                    >
+                      Lihat
+                    </button>
                   </td>
                 </tr>
               ))}
