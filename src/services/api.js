@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://lahandamaiapi-production.up.railway.app/";
+const API_BASE_URL = "http://34.126.138.137:3001/";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -18,5 +18,4 @@ api.interceptors.response.use(
     throw error;
   }
 );
-
 export default api;

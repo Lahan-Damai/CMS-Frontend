@@ -16,6 +16,11 @@ export const login = async (email, password) => {
     console.log(response.data.token);
     localStorage.setItem("isLoggedIn", "true");
 
+    localStorage.setItem("token", response.data.token);
+
+    api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
+    console.log(localStorage.getItem("token"));
     return response;
   } catch (error) {
     if (error.response) {
@@ -42,6 +47,7 @@ export const logout = async () => {
     console.log("Logout successful:", response.data);
 
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
     return response.data;
   } catch (error) {
     if (error.response) {
