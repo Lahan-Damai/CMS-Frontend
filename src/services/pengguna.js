@@ -26,3 +26,12 @@ export const getUserByNik = async (nik) => {
     throw error;
   }
 };
+
+export const getCurrentUser = async () => {
+  try {
+    const response = await api.get("/api/users/current");
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

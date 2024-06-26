@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/auth';
+import lahandamailogo from '../assets/lahandamailogo.png'
 
 function LoginForm({ setIsLoggedIn }) {
     const [email, setUsername] = useState('');
@@ -86,7 +87,7 @@ function LoginForm({ setIsLoggedIn }) {
                 </div>
                 <div className="w-px bg-gray-300 mx-8"></div>
                 <div className="w-2/5 flex justify-center items-center">
-                    <img src="/lahandamailogo.png" alt="Logo" className="max-w-full max-h-96 object-contain" /> {/* Adjust the path and size as needed */}
+                    <img src={lahandamailogo} alt="Logo" className="max-w-full max-h-96 object-contain" /> 
                 </div>
             </div>
         </div>
