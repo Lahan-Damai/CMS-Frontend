@@ -8,9 +8,6 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-    
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -21,14 +18,12 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsLoggedIn]);
+  }, []);
 
   const handleLogout = async () => {
     try {
       await logout();
       setIsLoggedIn(false);
-      localStorage.removeItem("isLoggedIn");
-      setIsDropdownOpen(false);
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -39,7 +34,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     <nav className="w-full bg-[#8C705B] text-white p-2.5 fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Lahan Damai - Admin</h1>
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <div className="flex items-center space-x-4">
             <Link to="/artikel-edukasi" className="text-white">
               Artikel Edukasi
@@ -75,6 +70,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
               )}
             </div>
           </div>
+        ) : (
+          <Link to="/login" className="text-white">Login</Link>
         )}
       </div>
     </nav>

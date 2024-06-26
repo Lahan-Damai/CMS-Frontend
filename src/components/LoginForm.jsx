@@ -18,8 +18,9 @@ function LoginForm({ setIsLoggedIn }) {
         try {
             const userData = await login(email, password);
             console.log('User logged in:', userData);
+            
+            // Token is already set in localStorage by the login function
             setIsLoggedIn(true);
-            localStorage.setItem("isLoggedIn", "true"); // Ensure this is set
             navigate('/dashboard');
         } catch (error) {
             if (error.response) {
