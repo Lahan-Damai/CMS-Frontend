@@ -13,6 +13,7 @@ const ViewUser = () => {
     const fetchUserData = async () => {
       try {
         const response = await getUserByNik(nik);
+        console.log(response.data);
         setUserData(response.data);
       } catch (error) {
         setError("Error fetching user data");
@@ -25,16 +26,19 @@ const ViewUser = () => {
   }, [nik]);
 
   const handleRoleChange = async (email, newRole) => {
+  
     try {
       const response = await switchUserRole(email, newRole);
       setUserData((prevUserData) => ({
         ...prevUserData,
-        role: response.data.role
+        role: response.role,
       }));
     } catch (error) {
       console.error("Failed to switch user role:", error);
     }
   };
+
+
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -80,7 +84,9 @@ const ViewUser = () => {
               <select
                 className="border border-gray-300 rounded px-2 py-1"
                 value={userData.role}
-                onChange={(e) => handleRoleChange(userData.email, e.target.value)}
+                onChange={(e) =>
+                  handleRoleChange(userData.email, e.target.value)
+                }
               >
                 <option value="user">Umum</option>
                 <option value="admin">Admin</option>
@@ -88,11 +94,15 @@ const ViewUser = () => {
             </div>
             <div>
               <label className="block mb-1 font-semibold">Foto:</label>
-              <img
-                src={userData.foto}
-                alt="User"
-                className="border border-gray-300 rounded-lg max-w-[200px] max-h-[200px] object-contain"
-              />
+              {userData.foto ? (
+                <img
+                  src={userData.foto}
+                  alt="User"
+                  className="border border-gray-300 rounded-lg max-w-[200px] max-h-[200px] object-contain"
+                />
+              ) : (
+                <span className="text-gray-500">Tidak ada foto</span>
+              )}
             </div>
           </div>
         )}

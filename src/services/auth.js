@@ -28,3 +28,12 @@ export const logout = async () => {
   }
 };
 
+export const getCurrentUser = async () => {
+  try {
+    const response = await api.get("/api/users/current");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getProfilPengguna, switchUserRole } from "../../services/pengguna";
+import { getProfilPengguna, switchUserRole, getCurrentUser } from "../../services/pengguna";
 import { useNavigate } from "react-router-dom";
 
 const ProfilPengguna = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +19,17 @@ const ProfilPengguna = () => {
       }
     };
 
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.data);
+      } catch (error) {
+        console.error("Failed to fetch current user:", error);
+      }
+    };
+
     fetchUsers();
+    fetchCurrentUser();
   }, []);
 
   const handleRoleChange = async (email, newRole) => {
@@ -25,7 +37,7 @@ const ProfilPengguna = () => {
       const response = await switchUserRole(email, newRole);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.email === email ? { ...user, role: response.data.role } : user
+          user.email === email ? { ...user, role: response.role } : user
         )
       );
     } catch (error) {
@@ -38,13 +50,14 @@ const ProfilPengguna = () => {
   };
 
   const filteredUsers = users.filter((user) =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (roleFilter ? user.role === roleFilter : true)
   );
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-7xl">
-        <div className="mb-4">
+        <div className="flex justify-between mb-4">
           <input
             type="text"
             placeholder="Cari email pengguna..."
@@ -52,6 +65,17 @@ const ProfilPengguna = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <div className="flex items-center">
+            <select
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+              className="p-2 border border-gray-300 rounded-lg ml-2"
+            >
+              <option value="">Semua Role</option>
+              <option value="admin">Admin</option>
+              <option value="user">Umum</option>
+            </select>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white table-auto">
@@ -83,7 +107,7 @@ const ProfilPengguna = () => {
                     {user.email}
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
-                    {user.alamat}
+                    <div className="line-clamp-5">{user.alamat}</div>
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {user.tanggal_lahir}
@@ -95,6 +119,7 @@ const ProfilPengguna = () => {
                       onChange={(e) =>
                         handleRoleChange(user.email, e.target.value)
                       }
+                      disabled={currentUser && user.email === currentUser.email}
                     >
                       <option value="user">Umum</option>
                       <option value="admin">Admin</option>
