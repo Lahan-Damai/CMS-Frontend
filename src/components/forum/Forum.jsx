@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Forum = () => {
   const [thread, setThread] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,9 +40,22 @@ const Forum = () => {
     }
   };
 
+  const filteredThreads = thread.filter((t) =>
+    t.judul.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
+        <div className="flex justify-between mb-4">
+          <input
+            type="text"
+            placeholder="Cari berdasarkan judul forum..."
+            className="p-2 border border-gray-300 rounded-lg w-full"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
@@ -53,15 +67,13 @@ const Forum = () => {
                   Nama Pengguna
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
-                  Replies
+                  Balasan (Replies)
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300">
-                  Actions
-                </th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {thread.map((thread) => (
+              {filteredThreads.map((thread) => (
                 <tr key={thread.id}>
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     {thread.id}

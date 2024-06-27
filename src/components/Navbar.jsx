@@ -63,6 +63,15 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     }
   };
 
+  const handleLogoClick = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+      setActiveLink("/dashboard");
+    } else {
+      navigate("/");
+      setActiveLink("/");
+    }
+  };
   const linkClasses = (path) =>
     `px-4 py-2 ${
       activeLink === path
@@ -74,8 +83,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     <nav className="w-full bg-[#8C705B] text-white p-2.5 fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-semibold">
-          <Link to="/dashboard" onClick={() => setActiveLink("/dashboard")}>
-            Lahan Damai - Admin
+          <Link to={isLoggedIn ? "/dashboard" : "/"} onClick={handleLogoClick}>
+            {isLoggedIn ? "Lahan Damai - Admin" : "Lahan Damai"}
           </Link>
         </h1>
         {isLoggedIn ? (

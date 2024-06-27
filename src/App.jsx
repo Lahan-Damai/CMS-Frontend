@@ -31,12 +31,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
