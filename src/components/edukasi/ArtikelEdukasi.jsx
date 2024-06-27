@@ -39,13 +39,18 @@ const ArtikelEdukasi = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await deleteArtikelEdukasi(id);
-      console.log(response.data); // "success"
+    const confirmDelete = window.confirm(
+      "Apakah Anda yakin untuk menghapus Artikel ini?"
+    );
+    if (confirmDelete) {
+      try {
+        const response = await deleteArtikelEdukasi(id);
+        console.log(response.data); // "success"
 
-      setArtikel(artikel.filter((article) => article.id !== id));
-    } catch (error) {
-      console.error("Error deleting artikel edukasi:", error);
+        setArtikel(artikel.filter((article) => article.id !== id));
+      } catch (error) {
+        console.error("Error deleting artikel edukasi:", error);
+      }
     }
   };
 
@@ -185,7 +190,10 @@ const ArtikelEdukasi = () => {
                       value={article.is_recommended ? "Iya" : "Tidak"}
                       className="w-full border border-gray-300 rounded-lg px-4 py-2"
                       onChange={(e) =>
-                        handleRekomendasiChange(article.id, e.target.value === "Iya")
+                        handleRekomendasiChange(
+                          article.id,
+                          e.target.value === "Iya"
+                        )
                       }
                     >
                       <option value="Iya">Iya</option>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   getReviewsByExpertId,
   deleteExpertReviewByExpertId,
 } from "../../services/ahliKonsultasi";
 
 const ExpertReviews = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,25 +28,29 @@ const ExpertReviews = () => {
   }, [id]);
 
   const handleDelete = async (review) => {
-    const data = {
-      ahli_id: review.ahli_id,
-      user_nik: review.user_nik,
-    };
-    console.log(data);
-    try {
-      await deleteExpertReviewByExpertId(data);
-      setReviews(reviews.filter((r) => r.user_nik !== review.user_nik));
-    } catch (err) {
-      setError(err.message);
+    const confirmDelete = window.confirm(
+      "Apakah Anda yakin untuk menghapus Ulasan ini?"
+    );
+
+    if (confirmDelete) {
+      try {
+        await deleteExpertReviewByExpertId({
+          ahli_id: review.ahli_id,
+          user_nik: review.user_nik,
+        });
+        setReviews(reviews.filter((r) => r.user_nik !== review.user_nik));
+      } catch (err) {
+        setError(err.message);
+      }
     }
   };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
-        {/* <h1 className="text-2xl font-bold mb-4">Ulasan untuk Ahli</h1> */}
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
@@ -68,7 +71,7 @@ const ExpertReviews = () => {
             </thead>
             <tbody>
               {reviews.map((review) => (
-                <tr key={review.ahli_id}>
+                <tr key={review.user_nik}>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {review.user_nik}
                   </td>
@@ -80,7 +83,7 @@ const ExpertReviews = () => {
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     <button
-                      className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                      className="border border-gray-300 rounded px-4 py-2 text-red-500 hover:bg-gray-100"
                       onClick={() => handleDelete(review)}
                     >
                       Delete

@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../services/auth";
 import { getCurrentUser } from "../services/pengguna";
-import defaultProfileImage from "../assets/profile_default.png"; 
-import { Circles } from 'react-loader-spinner'; 
+import defaultProfileImage from "../assets/profile_default.png";
+import { Circles } from "react-loader-spinner";
 
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isFetching, setIsFetching] = useState(true); 
+  const [isFetching, setIsFetching] = useState(true);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -22,7 +24,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
         setIsFetching(false);
       } catch (error) {
         console.error("Failed to fetch current user:", error);
-        setIsFetching(false); 
+        setIsFetching(false);
       }
     };
 
@@ -54,25 +56,54 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     }
   };
 
+  const linkClasses = (path) =>
+    `px-4 py-2 ${
+      activeLink === path
+        ? "bg-white text-[#8C705B] font-bold"
+        : "text-white hover:bg-[#6f4e3c] hover:text-white"
+    } rounded`;
+
   return (
     <nav className="w-full bg-[#8C705B] text-white p-2.5 fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Lahan Damai - Admin</h1>
+        <h1 className="text-2xl font-semibold">
+          <Link to="/dashboard">Lahan Damai - Admin</Link>
+        </h1>
         {isLoggedIn ? (
           <div className="flex items-center space-x-4">
-            <Link to="/artikel-edukasi" className="text-white">
+            <Link
+              to="/artikel-edukasi"
+              className={linkClasses("/artikel-edukasi")}
+              onClick={() => setActiveLink("/artikel-edukasi")}
+            >
               Artikel Edukasi
             </Link>
-            <Link to="/laporan-sengketa" className="text-white">
+            <Link
+              to="/laporan-sengketa"
+              className={linkClasses("/laporan-sengketa")}
+              onClick={() => setActiveLink("/laporan-sengketa")}
+            >
               Laporan Sengketa
             </Link>
-            <Link to="/daftar-profil" className="text-white">
+            <Link
+              to="/daftar-profil"
+              className={linkClasses("/daftar-profil")}
+              onClick={() => setActiveLink("/daftar-profil")}
+            >
               Daftar Profil
             </Link>
-            <Link to="/daftar-ahli" className="text-white">
+            <Link
+              to="/daftar-ahli"
+              className={linkClasses("/daftar-ahli")}
+              onClick={() => setActiveLink("/daftar-ahli")}
+            >
               Daftar Ahli Tanah
             </Link>
-            <Link to="/forum" className="text-white">
+            <Link
+              to="/forum"
+              className={linkClasses("/forum")}
+              onClick={() => setActiveLink("/forum")}
+            >
               Forum
             </Link>
             <div className="relative" ref={dropdownRef}>
