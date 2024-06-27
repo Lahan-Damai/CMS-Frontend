@@ -83,10 +83,8 @@ const TambahArtikel = () => {
       formData.foto.forEach((file) => {
         formDataToSend.append("foto", file);
       });
-      console.log(formData);
-      console.log(formDataToSend);
+   
       const response = await createArtikelEdukasi(formDataToSend);
-      console.log("New post created:", response.data);
       navigate("/artikel-edukasi");
     } catch (error) {
       console.error("Error creating artikel edukasi:", error);

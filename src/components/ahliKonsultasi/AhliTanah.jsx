@@ -41,7 +41,6 @@ const AhliTanah = () => {
     if (confirmDelete) {
       try {
         const response = await deleteExpert(id);
-        console.log(response.data);
 
         setExperts(experts.filter((expert) => expert.id !== id));
       } catch (error) {

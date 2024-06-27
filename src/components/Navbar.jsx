@@ -19,7 +19,6 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
       try {
         setIsFetching(true);
         const response = await getCurrentUser();
-        console.log(response);
         setCurrentUser(response.data);
         setIsFetching(false);
       } catch (error) {

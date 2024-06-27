@@ -45,7 +45,6 @@ const ArtikelEdukasi = () => {
     if (confirmDelete) {
       try {
         const response = await deleteArtikelEdukasi(id);
-        console.log(response.data); // "success"
 
         setArtikel(artikel.filter((article) => article.id !== id));
       } catch (error) {

@@ -31,7 +31,6 @@ const Forum = () => {
     if (confirmDelete) {
       try {
         const response = await deleteThreads(id);
-        console.log(response.data); // "success"
 
         setThread(thread.filter((thread) => thread.id !== id));
       } catch (error) {

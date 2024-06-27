@@ -32,7 +32,6 @@ const LaporanDetail = () => {
       const { fotos, ...updateData } = updatedLaporan;  // Exclude 'fotos' if not needed in the update payload
 
       await updateLaporan(updateData);
-      console.log("Laporan updated successfully");
     } catch (error) {
       console.error("Failed to update laporan:", error);
     }

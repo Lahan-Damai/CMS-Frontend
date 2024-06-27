@@ -15,7 +15,6 @@ const ExpertReviews = () => {
     const fetchReviews = async () => {
       try {
         const response = await getReviewsByExpertId(id);
-        console.log(response.data);
         setReviews(response.data);
         setLoading(false);
       } catch (err) {
