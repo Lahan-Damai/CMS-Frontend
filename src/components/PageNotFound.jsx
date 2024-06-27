@@ -8,8 +8,7 @@ function PageNotFound({ isLoggedIn }) {
     if (isLoggedIn) {
       navigate("/dashboard");
     } else {
-      console.log("masuknya sini");
-      navigate("/");
+\      navigate("/");
     }
   };
 

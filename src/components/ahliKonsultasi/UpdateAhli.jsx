@@ -99,7 +99,6 @@ const EditAhli = () => {
       }
   
       const response = await updateAhli(id, formDataToSend);
-      console.log("Ahli updated:", response.data);
       navigate("/daftar-ahli");
     } catch (error) {
       console.error("Error updating ahli:", error);

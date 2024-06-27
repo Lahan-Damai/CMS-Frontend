@@ -87,7 +87,6 @@ const TambahAhli = () => {
         formDataToSend.append("foto", formData.foto);
       }
       const response = await createAhli(formDataToSend);
-      console.log("New ahli created:", response.data);
       navigate("/daftar-ahli");
     } catch (error) {
       console.error("Error creating ahli:", error);

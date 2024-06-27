@@ -24,7 +24,6 @@ const Replies = () => {
     if (confirmDelete) {
       try {
         const response = await deleteReplies(id);
-        console.log(response.data);
 
         setReplies(replies.filter((reply) => reply.id !== id));
       } catch (error) {

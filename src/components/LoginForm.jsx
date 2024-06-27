@@ -17,11 +17,9 @@ function LoginForm({ setIsLoggedIn }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Login with:', email, password);
         
         try {
             const userData = await login(email, password);
-            console.log('User logged in:', userData);
             
             setIsLoggedIn(true);
             navigate('/dashboard');

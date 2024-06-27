@@ -15,7 +15,6 @@ const LaporanSengketa = () => {
     const fetchLaporan = async () => {
       try {
         const response = await getLaporanSengketa();
-        console.log(response.data);
         setLaporan(response.data);
       } catch (error) {
         console.error("Failed to fetch laporan sengketa:", error);
@@ -34,7 +33,6 @@ const LaporanSengketa = () => {
       return report;
     });
     setLaporan(updatedLaporan);
-    console.log(updatedLaporan);
     try {
       const updatedReport = updatedLaporan.find(
         (report) =>
@@ -44,7 +42,6 @@ const LaporanSengketa = () => {
       const { fotos, ...updateData } = updatedReport;
 
       await updateLaporan(updateData);
-      console.log("Laporan updated successfully");
     } catch (error) {
       console.error("Failed to update laporan:", error);
     }
