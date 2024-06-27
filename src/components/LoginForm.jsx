@@ -13,6 +13,7 @@ function LoginForm({ setIsLoggedIn }) {
     const navigate = useNavigate();
 
     setIsLoggedIn(false)
+    localStorage.removeItem("token");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
