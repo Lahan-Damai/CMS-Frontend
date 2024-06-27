@@ -10,6 +10,7 @@ const ArtikelEdukasi = () => {
   const [artikel, setArtikel] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("rekomendasi");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,9 +69,24 @@ const ArtikelEdukasi = () => {
     }
   };
 
-  const filteredArtikel = artikel.filter((article) =>
-    article.judul.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const sortedArtikel = artikel
+    .filter((article) =>
+      article.judul.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOption === "rekomendasi") {
+        return b.is_recommended - a.is_recommended;
+      } else if (sortOption === "oldest") {
+        return new Date(a.tanggal_upload) - new Date(b.tanggal_upload);
+      } else if (sortOption === "newest") {
+        return new Date(b.tanggal_upload) - new Date(a.tanggal_upload);
+      }
+      return 0;
+    });
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
@@ -83,12 +99,23 @@ const ArtikelEdukasi = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button
-            onClick={handleTambahEdukasi}
-            className="p-2 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]"
-          >
-            Tambah Artikel Edukasi
-          </button>
+          <div className="flex items-center">
+            <select
+              value={sortOption}
+              onChange={handleSortChange}
+              className="p-2 border border-gray-300 rounded-lg mr-2"
+            >
+              <option value="rekomendasi">Rekomendasi</option>
+              <option value="oldest">Oldest</option>
+              <option value="newest">Newest</option>
+            </select>
+            <button
+              onClick={handleTambahEdukasi}
+              className="p-2 bg-[#5D3323] text-white rounded-lg hover:bg-[#4a271e]"
+            >
+              Tambah Artikel Edukasi
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
@@ -118,7 +145,7 @@ const ArtikelEdukasi = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredArtikel.map((article) => (
+              {sortedArtikel.map((article) => (
                 <tr key={article.id}>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.judul}
@@ -129,11 +156,11 @@ const ArtikelEdukasi = () => {
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.sumber}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {article.deskripsi}
+                  <td className="px-6 py-2 border-b border-gray-300 max-h-20 overflow-hidden text-ellipsis">
+                    <div className="line-clamp-5">{article.deskripsi}</div>
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {article.isi}
+                  <td className="px-6 py-2 border-b border-gray-300 max-h-20 overflow-hidden text-ellipsis">
+                    <div className="line-clamp-5">{article.isi}</div>
                   </td>
                   <td className="px-6 py-2 border-b border-gray-300">
                     {article.fotos && article.fotos.length > 0 ? (
@@ -159,10 +186,7 @@ const ArtikelEdukasi = () => {
                       value={article.is_recommended ? "Iya" : "Tidak"}
                       className="w-full border border-gray-300 rounded-lg px-4 py-2"
                       onChange={(e) =>
-                        handleRekomendasiChange(
-                          article.id,
-                          e.target.value === "Iya"
-                        )
+                        handleRekomendasiChange(article.id, e.target.value === "Iya")
                       }
                     >
                       <option value="Iya">Iya</option>

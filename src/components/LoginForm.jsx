@@ -12,6 +12,8 @@ function LoginForm({ setIsLoggedIn }) {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
+    setIsLoggedIn(false)
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('Login with:', email, password);
