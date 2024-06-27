@@ -12,7 +12,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const location = useLocation();
-  const [activeLink, setActiveLink] = useState(location.pathname);
+  const [activeLink, setActiveLink] = useState("/dashboard");
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -30,8 +30,15 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
     if (isLoggedIn) {
       fetchCurrentUser();
+      if (location.pathname === "/login") {
+        navigate("/dashboard");
+      }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate, location.pathname]);
+
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -56,6 +63,15 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     }
   };
 
+  const handleLogoClick = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+      setActiveLink("/dashboard");
+    } else {
+      navigate("/");
+      setActiveLink("/");
+    }
+  };
   const linkClasses = (path) =>
     `px-4 py-2 ${
       activeLink === path
@@ -67,7 +83,9 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     <nav className="w-full bg-[#8C705B] text-white p-2.5 fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-semibold">
-          <Link to="/dashboard">Lahan Damai - Admin</Link>
+          <Link to={isLoggedIn ? "/dashboard" : "/"} onClick={handleLogoClick}>
+            {isLoggedIn ? "Lahan Damai - Admin" : "Lahan Damai"}
+          </Link>
         </h1>
         {isLoggedIn ? (
           <div className="flex items-center space-x-4">
@@ -135,7 +153,11 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             </div>
           </div>
         ) : (
-          <Link to="/login" className="text-white">
+          <Link
+            to="/login"
+            className={linkClasses("/login")}
+            onClick={() => setActiveLink("/login")}
+          >
             Login
           </Link>
         )}

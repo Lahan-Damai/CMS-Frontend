@@ -37,9 +37,9 @@ const Replies = () => {
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <div className="overflow-x-auto">
-          {replies.length === 0 ? (
-            <p className="text-center text-gray-500">THREADS TIDAK MEMILIKI REPLIES</p>
-          ) : (
+          {/* {replies.length === 0 ? (
+            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+          ) : ( */}
             <table className="min-w-full bg-white">
               <thead>
                 <tr>
@@ -73,7 +73,7 @@ const Replies = () => {
                 ))}
               </tbody>
             </table>
-          )}
+          {/* )} */}
         </div>
       </div>
     </div>

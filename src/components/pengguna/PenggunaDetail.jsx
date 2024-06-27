@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getUserByNik, switchUserRole } from "../../services/pengguna";
+import { getUserByNik, switchUserRole, getCurrentUser } from "../../services/pengguna";
 
 const ViewUser = () => {
   const { nik } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    console.log(nik);
     const fetchUserData = async () => {
       try {
         const response = await getUserByNik(nik);
-        console.log(response.data);
         setUserData(response.data);
       } catch (error) {
         setError("Error fetching user data");
@@ -22,11 +21,21 @@ const ViewUser = () => {
         setLoading(false);
       }
     };
+
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user.data);
+      } catch (error) {
+        console.error("Failed to fetch current user:", error);
+      }
+    };
+
     fetchUserData();
+    fetchCurrentUser();
   }, [nik]);
 
   const handleRoleChange = async (email, newRole) => {
-  
     try {
       const response = await switchUserRole(email, newRole);
       setUserData((prevUserData) => ({
@@ -37,8 +46,6 @@ const ViewUser = () => {
       console.error("Failed to switch user role:", error);
     }
   };
-
-
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -87,6 +94,7 @@ const ViewUser = () => {
                 onChange={(e) =>
                   handleRoleChange(userData.email, e.target.value)
                 }
+                disabled={currentUser && userData.email === currentUser.email}
               >
                 <option value="user">Umum</option>
                 <option value="admin">Admin</option>

@@ -80,28 +80,29 @@ const AhliTanah = () => {
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  Nama
-                </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                <th className="px-6 py-2 border-b-2 border-gray-300"> Nama</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  {" "}
                   Bidang
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  {" "}
                   Nomor WhatsApp
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  {" "}
                   Deskripsi
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  {" "}
                   Lama Kerja (Tahun)
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
-                  Foto
-                </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300 text-left">
+                <th className="px-6 py-2 border-b-2 border-gray-300"> Foto</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  {" "}
                   Ulasan
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300"></th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -147,13 +148,13 @@ const AhliTanah = () => {
                     {dropdownOpen === expert.id && (
                       <div className="absolute right-0 top-0 mt-8 w-32 bg-white rounded-md shadow-lg py-2 z-50">
                         <button
-                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full"
                           onClick={() => handleEdit(expert.id)}
                         >
                           Edit
                         </button>
                         <button
-                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full"
                           onClick={() => handleDelete(expert.id)}
                         >
                           Delete

@@ -86,8 +86,8 @@ const LaporanSengketa = () => {
                 onChange={(e) => setSortOption(e.target.value)}
                 className="p-2 border border-gray-300 rounded-lg mr-2"
               >
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
+                <option value="newest">Terbaru</option>
+                <option value="oldest">Terlama</option>
               </select>
               <select
                 value={statusFilter}

@@ -22,6 +22,8 @@ import Forum from "./components/forum/Forum";
 import Replies from "./components/forum/Replies";
 import ViewUser from "./components/pengguna/PenggunaDetail";
 import LaporanDetail from "./components/laporan/LaporanDetail";
+import PageNotFound from "./components/PageNotFound";
+import Home from "./components/Home";
 import api from "./services/api";
 
 function App() {
@@ -29,20 +31,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       setIsLoggedIn(true);
-    } else {
-      logout();
     }
     setLoading(false);
   }, []);
@@ -59,6 +52,7 @@ function App() {
           path="/login"
           element={<LoginForm setIsLoggedIn={setIsLoggedIn} />}
         />
+        <Route path="/" element={<Home setIsLoggedIn={setIsLoggedIn} />} />
         <Route
           path="/dashboard"
           element={
@@ -135,7 +129,7 @@ function App() {
             isLoggedIn ? <LaporanDetail /> : <Navigate to="/login" replace />
           }
         />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<PageNotFound isLoggedIn={isLoggedIn} />} />
       </Routes>
     </div>
   );
