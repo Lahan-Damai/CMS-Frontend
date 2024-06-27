@@ -8,7 +8,7 @@ function PageNotFound({ isLoggedIn }) {
     if (isLoggedIn) {
       navigate("/dashboard");
     } else {
-\      navigate("/");
+      navigate("/");
     }
   };
 
