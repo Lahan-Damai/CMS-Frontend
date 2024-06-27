@@ -52,7 +52,7 @@ const EditAhli = () => {
 
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "", // Clear the error message for the current field
+      [name]: "", 
     }));
   };
 

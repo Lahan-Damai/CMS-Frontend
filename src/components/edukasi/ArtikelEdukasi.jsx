@@ -56,7 +56,6 @@ const ArtikelEdukasi = () => {
 
       await updateArtikelEdukasi(id, formDataToSend);
 
-      // Update the artikel state with the updated artikel data
       setArtikel((prevArtikel) =>
         prevArtikel.map((article) =>
           article.id === id
@@ -134,13 +133,13 @@ const ArtikelEdukasi = () => {
                 <th className="px-6 py-2 border-b-2 border-gray-300">Isi</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">Foto</th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
-                  Uploaded at
+                  Diunggah Pada
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Rekomendasi
                 </th>
                 <th className="px-6 py-2 border-b-2 border-gray-300 text-right">
-                  Actions
+                  Aksi
                 </th>
               </tr>
             </thead>

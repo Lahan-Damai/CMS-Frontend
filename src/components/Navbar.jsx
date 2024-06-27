@@ -2,27 +2,27 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../services/auth";
 import { getCurrentUser } from "../services/pengguna";
-import defaultProfileImage from "../assets/profile_default.png"; // Make sure to import the default image
-import { Circles } from 'react-loader-spinner'; // Import the loader spinner
+import defaultProfileImage from "../assets/profile_default.png"; 
+import { Circles } from 'react-loader-spinner'; 
 
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isFetching, setIsFetching] = useState(true); // State to track if data is being fetched
+  const [isFetching, setIsFetching] = useState(true); 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        setIsFetching(true); // Set fetching state to true before fetching
+        setIsFetching(true);
         const response = await getCurrentUser();
         console.log(response);
         setCurrentUser(response.data);
-        setIsFetching(false); // Set fetching state to false after fetching
+        setIsFetching(false);
       } catch (error) {
         console.error("Failed to fetch current user:", error);
-        setIsFetching(false); // Set fetching state to false in case of error
+        setIsFetching(false); 
       }
     };
 
