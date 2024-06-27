@@ -1,11 +1,11 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getThreads, deleteThreads } from "../../services/forum";
 import { useNavigate } from "react-router-dom";
 
 const Forum = () => {
   const [thread, setThread] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchThreads = async () => {
       try {
@@ -23,13 +23,19 @@ const Forum = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await deleteThreads(id);
-      console.log(response.data); // "success"
+    const confirmDelete = window.confirm(
+      "Apakah Anda yakin untuk menghapus Post Thread ini?"
+    );
 
-      setThread(thread.filter((thread) => thread.id !== id));
-    } catch (error) {
-      console.error("Error deleting forum threads :", error);
+    if (confirmDelete) {
+      try {
+        const response = await deleteThreads(id);
+        console.log(response.data); // "success"
+
+        setThread(thread.filter((thread) => thread.id !== id));
+      } catch (error) {
+        console.error("Error deleting forum threads :", error);
+      }
     }
   };
 
@@ -49,7 +55,9 @@ const Forum = () => {
                 <th className="px-6 py-2 border-b-2 border-gray-300">
                   Replies
                 </th>
-                <th className="px-6 py-2 border-b-2 border-gray-300">Delete</th>
+                <th className="px-6 py-2 border-b-2 border-gray-300">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -67,17 +75,17 @@ const Forum = () => {
                   <td className="px-6 py-2 border-b border-gray-300 text-center">
                     {thread.user.nama}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center relative">
+                  <td className="px-6 py-2 border-b border-gray-300 text-center">
                     <button
-                      className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                      className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
                       onClick={() => handleLihat(thread.id)}
                     >
                       Lihat
                     </button>
                   </td>
-                  <td className="px-6 py-4 border-b whitespace-nowrap text-center">
+                  <td className="px-6 py-2 border-b border-gray-300 text-center">
                     <button
-                      className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                      className="border border-gray-300 rounded px-4 py-2 text-red-500 hover:bg-gray-100"
                       onClick={() => handleDelete(thread.id)}
                     >
                       Delete

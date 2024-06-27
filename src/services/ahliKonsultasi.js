@@ -5,17 +5,6 @@ export const getAllExperts = async () => {
     const response = await api.get("/api/konsultasi/ahli/get");
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -25,17 +14,6 @@ export const deleteExpert = async (id) => {
     const response = await api.delete(`/api/konsultasi/ahli/delete/${id}`);
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -49,17 +27,6 @@ export const createAhli = async (formData) => {
     });
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -77,17 +44,6 @@ export const updateAhli = async (id, formData) => {
     );
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -97,17 +53,6 @@ export const getAhliById = async (id) => {
     const response = await api.get(`/api/konsultasi/ahli/get/${id}`);
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -117,17 +62,6 @@ export const getReviewsByExpertId = async (id) => {
     const response = await api.get(`/api/konsultasi/ahli/get/${id}/ulasan`);
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };
@@ -135,26 +69,11 @@ export const getReviewsByExpertId = async (id) => {
 export const deleteExpertReviewByExpertId = async (data) => {
   try {
     const { ahli_id, user_nik } = data;
-    console.log(ahli_id);
-    console.log("----------------------");
-    console.log(user_nik);
-    console.log(data);
     const response = await api.delete(`/api/konsultasi/ahli/${ahli_id}/ulasan`, {
       data: { user_nik },
     });
     return response;
   } catch (error) {
-    if (error.response) {
-      console.error(
-        "Server responded with error status:",
-        error.response.status
-      );
-      console.error("Error message from server:", error.response.data);
-    } else if (error.request) {
-      console.error("No response received from server:", error.request);
-    } else {
-      console.error("Error during request setup:", error.message);
-    }
     throw error;
   }
 };

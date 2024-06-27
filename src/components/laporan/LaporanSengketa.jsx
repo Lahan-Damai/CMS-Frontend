@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getLaporanSengketa, updateLaporan } from "../../services/laporan";
 import { useNavigate } from "react-router-dom";
 
-
 const LaporanSengketa = () => {
   const [laporan, setLaporan] = useState([]);
+  const [sortOption, setSortOption] = useState("newest");
+  const [statusFilter, setStatusFilter] = useState(""); 
   const prosesOptions = ["Diterima", "Diproses", "Ditolak", "Selesai"];
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLaporan = async () => {
@@ -52,15 +54,60 @@ const LaporanSengketa = () => {
     navigate(`/laporan-sengketa/${no_sertifikat}`);
   };
 
+  const filteredNoSertif = laporan.filter((report) =>
+    report.no_sertifikat.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (sortOption === "oldest") {
+    filteredNoSertif.sort((a, b) => new Date(a.tanggal_lapor) - new Date(b.tanggal_lapor));
+  } else if (sortOption === "newest") {
+    filteredNoSertif.sort((a, b) => new Date(b.tanggal_lapor) - new Date(a.tanggal_lapor));
+  }
+
+  const filteredAndSorted = filteredNoSertif.filter((report) =>
+    statusFilter ? report.proses_laporan === statusFilter : true
+  );
+
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <div className="overflow-x-auto">
+          <div className="flex justify-between mb-4">
+            <input
+              type="text"
+              placeholder="Cari Nomor Sertifikat Tanah..."
+              className="p-2 border border-gray-300 rounded-lg w-full mr-2"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className="flex items-center pr-4">
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="p-2 border border-gray-300 rounded-lg mr-2"
+              >
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="p-2 border border-gray-300 rounded-lg mr-2"
+              >
+                <option value="">Semua Status</option>
+                {prosesOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <table className="min-w-full bg-white">
             <thead>
               <tr>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
-                  User NIK
+                  NIK Pengguna
                 </th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
                   No Sertifikat
@@ -78,16 +125,16 @@ const LaporanSengketa = () => {
                   Proses Laporan
                 </th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Laporan Photos
+                  Foto Laporan
                 </th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Uploaded at
+                  Diunggah Pada
                 </th>
                 <th className="px-4 py-2 border-b-2 border-gray-300">Detail</th>
               </tr>
             </thead>
             <tbody>
-              {laporan.map((report) => (
+              {filteredAndSorted.map((report) => (
                 <tr key={report.no_sertifikat}>
                   <td className="px-4 py-2 border-b border-gray-300">
                     {report.user_nik}
@@ -102,7 +149,9 @@ const LaporanSengketa = () => {
                     {report.longitude}
                   </td>
                   <td className="px-4 py-2 border-b border-gray-300">
-                    {report.deskripsi}
+                    <div className="max-w-[300px] whitespace-normal line-clamp-10">
+                      {report.deskripsi}
+                    </div>
                   </td>
                   <td className="px-4 py-2 border-b border-gray-300">
                     <select
@@ -119,15 +168,17 @@ const LaporanSengketa = () => {
                       ))}
                     </select>
                   </td>
-                  <td className="px-4 py-2 border-b border-gray-300">
+                  <td className="px-4 py-2 border-b border-gray-300 w-98">
                     {report.fotos && report.fotos.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {report.fotos.map((foto, index) => (
+                      <div className="grid grid-cols-2 gap-1 max-w-[240px] w-full">
+                        {report.fotos.slice(0, 5).map((foto, index) => (
                           <img
                             key={index}
                             src={foto}
                             alt={`Foto ${index + 1}`}
-                            className="w-16 h-16 object-cover rounded-md"
+                            className={`w-16 h-16 object-cover rounded-md ${
+                              index >= 3 ? "col-start-2" : ""
+                            }`}
                           />
                         ))}
                       </div>

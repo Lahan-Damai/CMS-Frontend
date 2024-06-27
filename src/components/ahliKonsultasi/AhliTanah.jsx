@@ -34,13 +34,19 @@ const AhliTanah = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await deleteExpert(id);
-      console.log(response.data);
+    const confirmDelete = window.confirm(
+      "Apakah Anda yakin untuk menghapus Ahli ini?"
+    );
 
-      setExperts(experts.filter((expert) => expert.id !== id));
-    } catch (error) {
-      console.error("Error deleting expert:", error);
+    if (confirmDelete) {
+      try {
+        const response = await deleteExpert(id);
+        console.log(response.data);
+
+        setExperts(experts.filter((expert) => expert.id !== id));
+      } catch (error) {
+        console.error("Error deleting expert:", error);
+      }
     }
   };
 

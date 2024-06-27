@@ -39,7 +39,7 @@ const TambahAhli = () => {
 
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "", // Clear the error message for the current field
+      [name]: "", 
     }));
   };
 
@@ -55,7 +55,7 @@ const TambahAhli = () => {
     }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      foto: "", // Clear the error message for the current field
+      foto: "",
     }));
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getArtikelEdukasiById,
@@ -25,6 +25,9 @@ const EditArtikel = () => {
   const [newImages, setNewImages] = useState([]);
   const [deleteAll, setDeleteAll] = useState(false);
 
+  const deskripsiRef = useRef(null);
+  const isiRef = useRef(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +44,20 @@ const EditArtikel = () => {
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    if (deskripsiRef.current) {
+      deskripsiRef.current.style.height = "auto";
+      deskripsiRef.current.style.height = `${deskripsiRef.current.scrollHeight}px`;
+    }
+  }, [formData.deskripsi]);
+
+  useEffect(() => {
+    if (isiRef.current) {
+      isiRef.current.style.height = "auto";
+      isiRef.current.style.height = `${isiRef.current.scrollHeight}px`;
+    }
+  }, [formData.isi]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -48,9 +65,14 @@ const EditArtikel = () => {
       [name]: value,
     }));
 
-    if (e.target.type === "textarea") {
-      e.target.style.height = "auto";
-      e.target.style.height = e.target.scrollHeight + "px";
+    if (name === "deskripsi" && deskripsiRef.current) {
+      deskripsiRef.current.style.height = "auto";
+      deskripsiRef.current.style.height = `${deskripsiRef.current.scrollHeight}px`;
+    }
+
+    if (name === "isi" && isiRef.current) {
+      isiRef.current.style.height = "auto";
+      isiRef.current.style.height = `${isiRef.current.scrollHeight}px`;
     }
 
     setErrors((prevErrors) => ({
@@ -218,7 +240,9 @@ const EditArtikel = () => {
               name="deskripsi"
               value={formData.deskripsi}
               onChange={handleChange}
+              ref={deskripsiRef}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
+              style={{ minHeight: "50px" }}
             />
             {errors.deskripsi && (
               <div className="text-red-500 text-sm mt-1">
@@ -235,7 +259,9 @@ const EditArtikel = () => {
               name="isi"
               value={formData.isi}
               onChange={handleChange}
+              ref={isiRef}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none overflow-hidden"
+              style={{ minHeight: "50px" }}
             />
             {errors.isi && (
               <div className="text-red-500 text-sm mt-1">{errors.isi}</div>
@@ -250,14 +276,14 @@ const EditArtikel = () => {
               id="foto"
               name="foto"
               multiple
-              accept="image/*"
+              accept="image/jpeg, image/png, image/gif, image/jpg"
               onChange={handleFileChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
             {errors.foto && (
               <div className="text-red-500 text-sm mt-1">{errors.foto}</div>
             )}
-            <div className="flex">
+            <div className="flex mt-2">
               <div className="w-1/2">
                 {existingImages.length > 0 && (
                   <div className="mt-2">
@@ -276,6 +302,7 @@ const EditArtikel = () => {
                     <button
                       className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
                       onClick={handleDeleteAllImages}
+                      type="button"
                     >
                       Delete All Photos
                     </button>
@@ -321,4 +348,5 @@ const EditArtikel = () => {
     </div>
   );
 };
+
 export default EditArtikel;
