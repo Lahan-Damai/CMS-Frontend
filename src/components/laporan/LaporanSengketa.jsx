@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getLaporanSengketa, updateLaporan } from "../../services/laporan";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const LaporanSengketa = () => {
   const [laporan, setLaporan] = useState([]);
   const [sortOption, setSortOption] = useState("newest");
   const [statusFilter, setStatusFilter] = useState(""); 
   const prosesOptions = ["Diterima", "Diproses", "Ditolak", "Selesai"];
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
   const navigate = useNavigate();
@@ -16,12 +18,20 @@ const LaporanSengketa = () => {
       try {
         const response = await getLaporanSengketa();
         setLaporan(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch laporan sengketa:", error);
+        setLoading(false);
       }
     };
 
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+
     fetchLaporan();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleProsesChange = async (e, noSertifikat) => {
@@ -68,38 +78,43 @@ const LaporanSengketa = () => {
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full">
-        <div className="overflow-x-auto">
-          <div className="flex justify-between mb-4">
-            <input
-              type="text"
-              placeholder="Cari Nomor Sertifikat Tanah..."
-              className="p-2 border border-gray-300 rounded-lg w-full mr-2"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <div className="flex items-center pr-4">
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="p-2 border border-gray-300 rounded-lg mr-2"
-              >
-                <option value="newest">Terbaru</option>
-                <option value="oldest">Terlama</option>
-              </select>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="p-2 border border-gray-300 rounded-lg mr-2"
-              >
-                <option value="">Semua Status</option>
-                {prosesOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div className="flex justify-between mb-4">
+          <input
+            type="text"
+            placeholder="Cari Nomor Sertifikat Tanah..."
+            className="p-2 border border-gray-300 rounded-lg w-full mr-2"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="flex items-center pr-4">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="p-2 border border-gray-300 rounded-lg mr-2"
+            >
+              <option value="newest">Terbaru</option>
+              <option value="oldest">Terlama</option>
+            </select>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="p-2 border border-gray-300 rounded-lg mr-2"
+            >
+              <option value="">Semua Status</option>
+              {prosesOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
+        </div>
+        <div className="overflow-x-auto">
+        {loading ? (
+            <LoadingSpinner />
+          ) : laporan.length === 0 ? (
+            <p className="text-center text-gray-500">Tidak ada laporan</p>
+          ) : (
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -198,6 +213,7 @@ const LaporanSengketa = () => {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </div>

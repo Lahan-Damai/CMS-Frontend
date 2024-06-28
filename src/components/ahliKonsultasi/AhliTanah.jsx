@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getAllExperts, deleteExpert } from "../../services/ahliKonsultasi";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const AhliTanah = () => {
   const [experts, setExperts] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,12 +15,19 @@ const AhliTanah = () => {
       try {
         const expertsData = await getAllExperts();
         setExperts(expertsData.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching experts:", error);
+        setLoading(false);
       }
     };
 
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+
     fetchExperts();
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleDropdownToggle = (id) => {
@@ -76,6 +85,11 @@ const AhliTanah = () => {
           </button>
         </div>
         <div className="overflow-x-auto">
+        {loading ? (
+            <LoadingSpinner />
+          ) : experts.length === 0 ? (
+            <p className="text-center text-gray-500">Tidak ada ahli</p>
+          ) : (
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -165,6 +179,7 @@ const AhliTanah = () => {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </div>

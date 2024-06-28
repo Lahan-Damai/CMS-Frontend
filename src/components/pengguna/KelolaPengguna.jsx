@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getProfilPengguna, switchUserRole, getCurrentUser } from "../../services/pengguna";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const ProfilPengguna = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,8 +16,10 @@ const ProfilPengguna = () => {
       try {
         const response = await getProfilPengguna();
         setUsers(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch users:", error);
+        setLoading(false);
       }
     };
 
@@ -28,8 +32,14 @@ const ProfilPengguna = () => {
       }
     };
 
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+
     fetchUsers();
     fetchCurrentUser();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleRoleChange = async (email, newRole) => {
@@ -78,6 +88,11 @@ const ProfilPengguna = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
+        {loading ? (
+            <LoadingSpinner />
+          ) : users.length === 0 ? (
+            <p className="text-center text-gray-500">Tidak ada pengguna</p>
+          ) : (
           <table className="min-w-full bg-white table-auto">
             <thead>
               <tr>
@@ -137,6 +152,7 @@ const ProfilPengguna = () => {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </div>
