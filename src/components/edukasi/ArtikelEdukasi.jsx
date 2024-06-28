@@ -103,7 +103,7 @@ const ArtikelEdukasi = () => {
 
   return (
     <div className="container mx-auto p-4 mt-20 flex justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-7xl">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <div className="flex justify-between mb-4">
           <input
             type="text"
