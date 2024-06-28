@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getThreads, deleteThreads } from "../../services/forum";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const Forum = () => {
   const [thread, setThread] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,11 +14,20 @@ const Forum = () => {
       try {
         const response = await getThreads();
         setThread(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch forum threads:", error);
+        setLoading(false);
       }
     };
+
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+
     fetchThreads();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleLihat = (id) => {
@@ -56,6 +67,11 @@ const Forum = () => {
           />
         </div>
         <div className="overflow-x-auto">
+          {loading ? (
+            <LoadingSpinner />
+          ) : thread.length === 0 ? (
+            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+          ) : (
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -106,6 +122,7 @@ const Forum = () => {
               ))}
             </tbody>
           </table>
+        )}
         </div>
       </div>
     </div>

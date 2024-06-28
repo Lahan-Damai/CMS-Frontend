@@ -5,12 +5,14 @@ import {
   updateArtikelEdukasi,
 } from "../../services/edukasi";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const ArtikelEdukasi = () => {
   const [artikel, setArtikel] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("rekomendasi");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,12 +20,20 @@ const ArtikelEdukasi = () => {
       try {
         const response = await getArtikelEdukasi();
         setArtikel(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch artikel edukasi:", error);
+        setLoading(false);
       }
     };
 
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+
     fetchArtikel();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleDropdownToggle = (id) => {
@@ -121,6 +131,11 @@ const ArtikelEdukasi = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
+        {loading ? (
+            <LoadingSpinner />
+          ) : artikel.length === 0 ? (
+            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+          ) : (
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -227,6 +242,7 @@ const ArtikelEdukasi = () => {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </div>
