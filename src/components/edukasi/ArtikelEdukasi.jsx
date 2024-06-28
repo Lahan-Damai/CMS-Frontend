@@ -134,7 +134,7 @@ const ArtikelEdukasi = () => {
         {loading ? (
             <LoadingSpinner />
           ) : artikel.length === 0 ? (
-            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+            <p className="text-center text-gray-500">Tidak ada artikel</p>
           ) : (
           <table className="min-w-full bg-white">
             <thead>

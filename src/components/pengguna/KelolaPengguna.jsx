@@ -91,7 +91,7 @@ const ProfilPengguna = () => {
         {loading ? (
             <LoadingSpinner />
           ) : users.length === 0 ? (
-            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+            <p className="text-center text-gray-500">Tidak ada pengguna</p>
           ) : (
           <table className="min-w-full bg-white table-auto">
             <thead>

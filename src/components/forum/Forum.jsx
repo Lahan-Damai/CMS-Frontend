@@ -70,7 +70,7 @@ const Forum = () => {
           {loading ? (
             <LoadingSpinner />
           ) : thread.length === 0 ? (
-            <p className="text-center text-gray-500">Threads TIDAK MEMILIKI REPLIES</p>
+            <p className="text-center text-gray-500">Tidak ada Thread</p>
           ) : (
           <table className="min-w-full bg-white">
             <thead>
