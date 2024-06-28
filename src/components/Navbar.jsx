@@ -56,6 +56,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     try {
       await logout();
       setIsLoggedIn(false);
+      setIsDropdownOpen(false); 
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -71,6 +72,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
       setActiveLink("/");
     }
   };
+
   const linkClasses = (path) =>
     `px-4 py-2 ${
       activeLink === path
