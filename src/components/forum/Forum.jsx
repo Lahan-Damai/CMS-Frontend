@@ -90,19 +90,19 @@ const Forum = () => {
             <tbody>
               {filteredThreads.map((thread) => (
                 <tr key={thread.id}>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {thread.id}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {thread.judul}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {thread.isi}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     {thread.user.nama}
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     <button
                       className="border border-gray-300 rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
                       onClick={() => handleLihat(thread.id)}
@@ -110,7 +110,7 @@ const Forum = () => {
                       Lihat
                     </button>
                   </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center">
+                  <td className="px-6 py-2 border-b border-gray-300">
                     <button
                       className="border border-gray-300 rounded px-4 py-2 text-red-500 hover:bg-gray-100"
                       onClick={() => handleDelete(thread.id)}
