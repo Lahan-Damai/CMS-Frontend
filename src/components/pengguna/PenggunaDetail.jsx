@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getUserByNik, switchUserRole, getCurrentUser } from "../../services/pengguna";
+import {
+  getUserByNik,
+  switchUserRole,
+  getCurrentUser,
+} from "../../services/pengguna";
 
 const ViewUser = () => {
   const { nik } = useParams();
@@ -36,14 +40,16 @@ const ViewUser = () => {
   }, [nik]);
 
   const handleRoleChange = async (email, newRole) => {
-    try {
-      const response = await switchUserRole(email, newRole);
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        role: response.role,
-      }));
-    } catch (error) {
-      console.error("Failed to switch user role:", error);
+    if (userData && userData.role !== newRole) {
+      try {
+        const response = await switchUserRole(email, newRole);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          role: response.data.role,
+        }));
+      } catch (error) {
+        console.error("Failed to switch user role:", error);
+      }
     }
   };
 
