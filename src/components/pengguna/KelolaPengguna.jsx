@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getProfilPengguna, switchUserRole, getCurrentUser } from "../../services/pengguna";
+import {
+  getProfilPengguna,
+  switchUserRole,
+  getCurrentUser,
+} from "../../services/pengguna";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../LoadingSpinner";
 
@@ -44,12 +48,16 @@ const ProfilPengguna = () => {
 
   const handleRoleChange = async (email, newRole) => {
     try {
-      const response = await switchUserRole(email, newRole);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.email === email ? { ...user, role: response.role } : user
-        )
-      );
+      const currentUser = users.find((user) => user.email === email);
+
+      if (currentUser && currentUser.role !== newRole) {
+        const response = await switchUserRole(email, newRole);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.email === email ? { ...user, role: response.data.role } : user
+          )
+        );
+      }
     } catch (error) {
       console.error("Failed to switch user role:", error);
     }
@@ -59,9 +67,10 @@ const ProfilPengguna = () => {
     navigate(`/view-user/${nik}`);
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (roleFilter ? user.role === roleFilter : true)
+  const filteredUsers = users.filter(
+    (user) =>
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (roleFilter ? user.role === roleFilter : true)
   );
 
   return (
@@ -88,70 +97,78 @@ const ProfilPengguna = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-        {loading ? (
+          {loading ? (
             <LoadingSpinner />
           ) : users.length === 0 ? (
             <p className="text-center text-gray-500">Tidak ada pengguna</p>
           ) : (
-          <table className="min-w-full bg-white table-auto">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border-b-2 border-gray-300">NIK</th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Nama Pengguna
-                </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">Email</th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">Alamat</th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">
-                  Tanggal Lahir
-                </th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">Role</th>
-                <th className="px-4 py-2 border-b-2 border-gray-300">Detail</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers.map((user) => (
-                <tr key={user.nik}>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {user.nik}
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {user.nama}
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {user.email}
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    <div className="line-clamp-5">{user.alamat}</div>
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    {user.tanggal_lahir}
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300">
-                    <select
-                      className="border border-gray-300 rounded px-2 py-1"
-                      value={user.role}
-                      onChange={(e) =>
-                        handleRoleChange(user.email, e.target.value)
-                      }
-                      disabled={currentUser && user.email === currentUser.email}
-                    >
-                      <option value="user">Umum</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  </td>
-                  <td className="px-6 py-2 border-b border-gray-300 text-center relative">
-                    <button
-                      className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
-                      onClick={() => handleLihat(user.nik)}
-                    >
-                      Lihat
-                    </button>
-                  </td>
+            <table className="min-w-full bg-white table-auto">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">NIK</th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">
+                    Nama Pengguna
+                  </th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">
+                    Email
+                  </th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">
+                    Alamat
+                  </th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">
+                    Tanggal Lahir
+                  </th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">Role</th>
+                  <th className="px-4 py-2 border-b-2 border-gray-300">
+                    Detail
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredUsers.map((user) => (
+                  <tr key={user.nik}>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      {user.nik}
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      {user.nama}
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      <div className="line-clamp-5">{user.alamat}</div>
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      {user.tanggal_lahir}
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300">
+                      <select
+                        className="border border-gray-300 rounded px-2 py-1"
+                        value={user.role}
+                        onChange={(e) =>
+                          handleRoleChange(user.email, e.target.value)
+                        }
+                        disabled={
+                          currentUser && user.email === currentUser.email
+                        }
+                      >
+                        <option value="user">Umum</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </td>
+                    <td className="px-6 py-2 border-b border-gray-300 text-center relative">
+                      <button
+                        className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
+                        onClick={() => handleLihat(user.nik)}
+                      >
+                        Lihat
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </div>
