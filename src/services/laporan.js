@@ -20,9 +20,9 @@ export const updateLaporan = async (data) => {
   }
 };
 
-export const getLaporanByNoSertifikat = async (noSertifikat) => {
+export const getLaporanByNoSertifikat = async (noSertifikat, nikUser) => {
   try {
-    const response = await api.get(`/api/laporan/${noSertifikat}/get`);
+    const response = await api.get(`/api/laporan/${nikUser}/${noSertifikat}/get`);
     return response;
   } catch (error) {
     throw error;

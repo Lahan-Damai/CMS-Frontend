@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getLaporanByNoSertifikat, updateLaporan } from "../../services/laporan";
 
 const LaporanDetail = () => {
-  const { noSertifikat } = useParams();
+  const { noSertifikat, nikUser } = useParams();
   const [laporanData, setLaporanData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,8 @@ const LaporanDetail = () => {
   useEffect(() => {
     const fetchLaporanData = async () => {
       try {
-        const response = await getLaporanByNoSertifikat(noSertifikat);
+        console.log("noSertifikat:", noSertifikat, "nikUser:", nikUser);
+        const response = await getLaporanByNoSertifikat(noSertifikat, nikUser);
         setLaporanData(response.data);
       } catch (error) {
         setError("Error fetching laporan data");
@@ -22,7 +23,7 @@ const LaporanDetail = () => {
       }
     };
     fetchLaporanData();
-  }, [noSertifikat]);
+  }, [noSertifikat, nikUser]);
 
   const handleProsesChange = async (e) => {
     const newProses = e.target.value;
@@ -87,7 +88,7 @@ const LaporanDetail = () => {
             <div>
               <label className="block mb-1 font-semibold">Foto:</label>
               <div className="flex flex-wrap gap-2">
-                {laporanData.fotos.map((foto, index) => (
+                {laporanData.fotos &&  laporanData.fotos.map((foto, index) => (
                   <img
                     key={index}
                     src={foto}

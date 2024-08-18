@@ -124,7 +124,7 @@ function App() {
           element={isLoggedIn ? <ViewUser /> : <Navigate to="/login" replace />}
         />
         <Route
-          path="/laporan-sengketa/:noSertifikat"
+          path="/laporan-sengketa/:nikUser/:noSertifikat"
           element={
             isLoggedIn ? <LaporanDetail /> : <Navigate to="/login" replace />
           }

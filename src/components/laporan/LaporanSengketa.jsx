@@ -57,8 +57,8 @@ const LaporanSengketa = () => {
     }
   };
 
-  const handleLihat = (no_sertifikat) => {
-    navigate(`/laporan-sengketa/${no_sertifikat}`);
+  const handleLihat = (no_sertifikat, user_nik) => {
+    navigate(`/laporan-sengketa/${user_nik}/${no_sertifikat}`);
   };
 
   const filteredNoSertif = laporan.filter((report) =>
@@ -204,7 +204,7 @@ const LaporanSengketa = () => {
                   <td className="px-6 py-2 border-b border-gray-300 text-center relative">
                     <button
                       className="border border-gray-300 border-b rounded px-4 py-2 text-blue-500 hover:bg-gray-100"
-                      onClick={() => handleLihat(report.no_sertifikat)}
+                      onClick={() => handleLihat(report.no_sertifikat, report.user_nik)}
                     >
                       Lihat
                     </button>
