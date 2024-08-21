@@ -1,0 +1,173 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    width: 100%;
+    height: 100%;
+    background-color: #FDFDFD;
+}
+
+.container {
+    background-color: #fff;
+    width: 85vw;
+    height: 80vh;
+    min-width: 800px;
+    min-height: 500px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+    overflow-x: hidden;
+    padding: 48px 25px 25px 25px;
+    margin-top: 5rem;
+}
+
+.tabel {
+    margin-top: 10px;
+}
+
+.tabel .header {
+    display: grid;
+    grid-template-columns: 250px 500px;
+    justify-items: center;
+    padding: 10px 0;
+    border-bottom: 3px solid #D1D4DB;
+    font-weight: 800;
+}
+
+.tabel .tdContainer {
+    overflow-y: scroll;
+    height: 80%;
+}
+
+.tabel .tableData {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.tabel .tableData .row {
+    display: grid;
+    position: relative;
+    justify-items: center;
+    grid-template-columns: 250px 500px;
+    padding: 10px 0px;    
+    border-bottom: 2px solid #D1D4DB;
+    cursor: pointer;
+}
+
+.tabel .tableData .row:hover {
+    background-color: #D1D4DB;
+    border-bottom: 2px solid white;
+}
+
+.tabel .tableData .row.clicked:hover {
+    background-color: #EAD7CA; /* Pertahankan warna yang sama saat di-hover */
+}
+
+.clicked {
+    background-color: #EAD7CA;
+}
+
+.container .upper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.container .upper .searchBar {
+    width: 50%;
+}
+
+.container .upper .searchBar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D1D4DB; /* Warna border tombol */
+    border-radius: 10px;
+}
+
+.container .upper .buttons {
+    display: flex;
+    justify-content: end;
+}
+
+.container .upper button {
+    margin: 0 0 0 20px;
+    cursor: pointer;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.container .upper button:active {
+    opacity: 0.8;
+}
+
+#hapusBtn {
+    background-color: #FE6464;
+    display: none;
+}
+
+#unduhBtn {
+    background-color: #3E8ACC;
+    display: none;
+}
+
+#tambahBtn {
+    background-color: #5D3323;
+}
+
+.clicked {
+    background-color: #EAD7CA;
+}
+
+.modal {
+    position: absolute; 
+    background-color: #eee;
+    border: none;
+    border-radius: 20px;
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 75%;
+    top: 20%;
+    width: 60%;
+    margin-top: -25px;
+
+}
+
+.modal .closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px 15px;
+    background-color: transparent;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.modalBg {
+    position: absolute;
+	width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+
+.inputForm {
+    width: 80%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputForm button {
+    background-color: red;
+}

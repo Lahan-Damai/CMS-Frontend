@@ -125,6 +125,13 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             >
               Forum
             </Link>
+            <Link
+              to="/chatbot"
+              className={linkClasses("/chatbot")}
+              onClick={() => setActiveLink("/chatbot")}
+            >
+              Context File
+            </Link>
             <div className="relative" ref={dropdownRef}>
               {isFetching ? (
                 <Circles
