@@ -22,6 +22,7 @@ import Forum from "./components/forum/Forum";
 import Replies from "./components/forum/Replies";
 import ViewUser from "./components/pengguna/PenggunaDetail";
 import LaporanDetail from "./components/laporan/LaporanDetail";
+import VotePage from "./components/vote/VotePage";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/Home";
 import api from "./services/api";
@@ -129,6 +130,7 @@ function App() {
             isLoggedIn ? <LaporanDetail /> : <Navigate to="/login" replace />
           }
         />
+        <Route path="/vote" element={<VotePage />} /> 
         <Route path="*" element={<PageNotFound isLoggedIn={isLoggedIn} />} />
       </Routes>
     </div>

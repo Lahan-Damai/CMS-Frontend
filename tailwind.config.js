@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+      },
       lineClamp: {
         7: '7',
         8: '8',
@@ -11,7 +14,7 @@ export default {
         11: '11',
         15: '15',
         20: '20',
-      }
+      },
     },
   },
   plugins: [],
