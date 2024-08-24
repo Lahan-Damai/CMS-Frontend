@@ -66,7 +66,7 @@ Untuk melihat lokasi di Google Maps, klik di sini: ${googleMapsLink}.`);
       </p>
 
       <div className="bg-gray-100 rounded-lg p-6 shadow-md overflow-hidden">
-        <pre className="whitespace-pre-wrap text-gray-700 font-poppins text-base leading-relaxed break-words">
+        <pre className="whitespace-pre-wrap text-gray-700 font-poppins text-base leading-relaxed break-words text-justify">
           {renderMessageWithLinks(message)}
         </pre>
       </div>
