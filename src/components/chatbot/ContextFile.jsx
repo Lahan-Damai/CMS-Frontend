@@ -41,7 +41,7 @@ const ContextFile  = () => {
                     <input type="text" placeholder="cari nama file..."/>
                 </div>
                 <div class={styles.buttons}>
-                    <button type="button" id={styles.hapusBtn} style={{display: selectedRow !== null ? 'block' : 'none'}}>Hapus</button>
+                    <button type="button" id={styles.hapusBtn}>Hapus</button>
                     <button type="button" id={styles.unduhBtn} style={{display: selectedRow !== null ? 'block' : 'none'}}>Unduh</button>
                     <button type="button" id={styles.tambahBtn} onClick={handleTambahFile}>Tambah File</button>
                 </div>
@@ -75,6 +75,8 @@ const ContextFile  = () => {
                         <div className={styles.inputForm}>
                             <label htmlFor="file">File:</label> 
                             <input type="file" id="file" />
+                            <label htmlFor="namaUU">Nama undang-undang:</label> 
+                            <input type="text" name="namaUU" id="" />
                             <button type="submit">Submit</button>
                         </div>
                         <button onClick={handleCloseModal} className={styles.closeBtn}>Close</button>

@@ -108,7 +108,6 @@
 
 #hapusBtn {
     background-color: #FE6464;
-    display: none;
 }
 
 #unduhBtn {
@@ -171,3 +170,4 @@
 .inputForm button {
     background-color: red;
 }
+
