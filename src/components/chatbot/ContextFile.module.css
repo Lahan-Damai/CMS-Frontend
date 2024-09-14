@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
 .body {
@@ -9,7 +10,7 @@
     justify-content: center;
     align-items: center;   
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: #FDFDFD;
 }
 
@@ -20,10 +21,11 @@
     min-width: 800px;
     min-height: 500px;
     border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
-    overflow-x: hidden;
-    padding: 48px 25px 25px 25px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    padding: 48px 25px;
     margin-top: 5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .tabel {
@@ -32,15 +34,16 @@
 
 .tabel .header {
     display: grid;
-    grid-template-columns: 250px 500px;
+    grid-template-columns: 3fr 3fr 1fr;
     justify-items: center;
     padding: 10px 0;
     border-bottom: 3px solid #D1D4DB;
     font-weight: 800;
+    color: #333;
 }
 
 .tabel .tdContainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 80%;
 }
 
@@ -51,25 +54,24 @@
 
 .tabel .tableData .row {
     display: grid;
-    position: relative;
     justify-items: center;
-    grid-template-columns: 250px 500px;
-    padding: 10px 0px;    
+    grid-template-columns: 3fr 3fr 1fr;
+    padding: 10px 0;
     border-bottom: 2px solid #D1D4DB;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .tabel .tableData .row:hover {
-    background-color: #D1D4DB;
-    border-bottom: 2px solid white;
+    background-color: #F1F3F6;
 }
 
-.tabel .tableData .row.clicked:hover {
-    background-color: #EAD7CA; /* Pertahankan warna yang sama saat di-hover */
+.tabel .tableData .row.clicked {
+    background-color: #FFEEE0;
 }
 
-.clicked {
-    background-color: #EAD7CA;
+.clicked:hover {
+    background-color: #FFEEE0;
 }
 
 .container .upper {
@@ -77,97 +79,151 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.container .upper .searchBar {
-    width: 50%;
-}
-
 .container .upper .searchBar input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #D1D4DB; /* Warna border tombol */
-    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #D1D4DB;
+    border-radius: 8px;
 }
 
 .container .upper .buttons {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .container .upper button {
-    margin: 0 0 0 20px;
+    margin-left: 20px;
     cursor: pointer;
-    padding: 8px 20px;
+    padding: 10px 20px;
     border: none;
     border-radius: 8px;
     color: #fff;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
 }
 
 .container .upper button:active {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 #hapusBtn {
-    background-color: #FE6464;
+    background-color: #FF6B6B;
 }
 
 #unduhBtn {
-    background-color: #3E8ACC;
+    background-color: #1E90FF;
     display: none;
 }
 
 #tambahBtn {
-    background-color: #5D3323;
+    background-color: #4CAF50;
 }
 
-.clicked {
-    background-color: #EAD7CA;
+.modalBg {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal {
-    position: absolute; 
-    background-color: #eee;
-    border: none;
-    border-radius: 20px;
-    left:0;
-    right:0;
-    margin-left: auto;
-    margin-right: auto;
-    height: 75%;
-    top: 20%;
-    width: 60%;
-    margin-top: -25px;
-
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    width: 50vw;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    
 }
 
 .modal .closeBtn {
     position: absolute;
     top: 10px;
     right: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 5px 15px;
-    background-color: transparent;
-    font-size: 15px;
+    border: none;
+    background: none;
+    font-size: 18px;
     cursor: pointer;
-}
-
-.modalBg {
-    position: absolute;
-	width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    top: 0;
-    left: 0;
+    padding: 8px 12px;
 }
 
 .inputForm {
-    width: 80%;
-    margin: 50px auto;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inputForm input, .inputForm button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #D1D4DB;
+}
+
+.submitBtn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submitBtn:hover {
+    background-color: #5bda60;
+}
+
+
+#tambahVDBBtn {
+    background-color: #FFA500; 
+    transition: background-color 0.3s ease;
+}
+
+#tambahVDBBtn:hover {
+    background-color: #FF8C00; 
+}
+
+.modalContent h2 {
+    font-size: 24px; 
+    font-weight: bold; 
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+
+.modalContent {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.inputForm button {
-    background-color: red;
+.modalButtons {
+    display: flex;
+    justify-content: space-around;
+    width: 75%;
+    margin-top: 20px;
 }
 
+.modalButtons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35%;
+}
+
+.modalButtons #deleteBtn {
+    background-color: #FF6B6B;
+    color: #fff;
+}
+
+.modalButtons button:hover {
+    opacity: 0.9;
+}
