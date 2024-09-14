@@ -26,6 +26,7 @@ import VotePage from "./components/vote/VotePage";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/Home";
 import api from "./services/api";
+import ContextFile from "./components/chatbot/ContextFile";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -129,6 +130,10 @@ function App() {
           element={
             isLoggedIn ? <LaporanDetail /> : <Navigate to="/login" replace />
           }
+        />
+        <Route
+          path="/chatbot"
+          element={isLoggedIn ? <ContextFile /> : <Navigate to="/login" replace />}
         />
         <Route path="/vote" element={<VotePage />} /> 
         <Route path="*" element={<PageNotFound isLoggedIn={isLoggedIn} />} />
