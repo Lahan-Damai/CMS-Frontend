@@ -98,6 +98,19 @@ const LaporanDetail = () => {
                 ))}
               </div>
             </div>
+            <div>
+              <label className="block mb-1 font-semibold">Foto dokumen:</label>
+              <div className="flex flex-wrap gap-2">
+                {laporanData.foto_dokumen &&  laporanData.foto_dokumen.map((fotod, index) => (
+                  <img
+                    key={index}
+                    src={fotod}
+                    alt={`Foto ${index + 1}`}
+                    className="border border-gray-300 rounded-lg max-w-[200px] max-h-[200px] object-contain"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
